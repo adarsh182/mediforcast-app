@@ -3,11 +3,8 @@ import axios from 'axios';
 // For local development
 const LOCAL_API = 'http://localhost:5000/api';
 
-// For production - set this to your Render backend URL
-// Example: https://mediforcast-backend.onrender.com/api
-const PRODUCTION_API = process.env.REACT_APP_API_URL || LOCAL_API;
-
-const API_BASE = process.env.NODE_ENV === 'production' ? PRODUCTION_API : LOCAL_API;
+// Use environment variable if set, otherwise use local API
+const API_BASE = process.env.REACT_APP_API_URL || LOCAL_API;
 
 const client = axios.create({
   baseURL: API_BASE,
