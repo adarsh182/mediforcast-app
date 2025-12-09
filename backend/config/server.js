@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import symptomsRouter from './src/routes/symptoms.js';
-import hospitalsRouter from './src/routes/hospitals.js';
+import symptomsRouter from '../src/routes/symptoms.js';
+import hospitalsRouter from '../src/routes/hospitals.js';
 
 dotenv.config();
 
