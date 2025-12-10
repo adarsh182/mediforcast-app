@@ -6,6 +6,7 @@ import AdviceSection from '../components/AdviceSection';
 import HospitalList from '../components/HospitalList';
 import DisclaimerBanner from '../components/DisclaimerBanner';
 import LoadingSpinner from '../components/LoadingSpinner';
+import { useTheme } from '../contexts/ThemeContext';
 
 const careSettingMap = {
   'self-care': { label: 'Self-Care at Home', icon: '🏠' },
@@ -17,11 +18,18 @@ const careSettingMap = {
 export default function Result() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { theme } = useTheme();
   const [hospitals, setHospitals] = useState([]);
   const [loadingHospitals, setLoadingHospitals] = useState(false);
 
   const result = location.state?.result;
   const city = location.state?.city;
+
+  const bgClass = theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200';
+  const textClass = theme === 'dark' ? 'text-white' : 'text-gray-900';
+  const textSecondaryClass = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
+  const textMutedClass = theme === 'dark' ? 'text-gray-400' : 'text-gray-500';
+  const borderClass = theme === 'dark' ? 'border-gray-700' : 'border-gray-200';
 
   // Redirect if no result data
   useEffect(() => {
@@ -32,12 +40,25 @@ export default function Result() {
 
   // Fetch hospitals on mount
   useEffect(() => {
-    if (!city || !result?.recommended_specialties?.[0]) return;
+    if (!city) {
+      setHospitals([]);
+      return;
+    }
 
     setLoadingHospitals(true);
-    getHospitals(city, result.recommended_specialties[0])
+    const department = result?.recommended_specialties?.[0];
+    
+    getHospitals(city, department)
       .then((res) => {
-        setHospitals(res.data.hospitals || []);
+        const hospitalsList = res.data?.hospitals || [];
+        setHospitals(hospitalsList);
+        
+        // Log for debugging
+        if (hospitalsList.length === 0) {
+          console.log('No hospitals found for:', { city, department });
+        } else {
+          console.log(`Found ${hospitalsList.length} hospitals for:`, { city, department });
+        }
       })
       .catch((err) => {
         console.error('Error fetching hospitals:', err);
@@ -58,8 +79,8 @@ export default function Result() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold text-white mb-4">Your Guidance Results</h1>
-        <p className="text-gray-400 text-sm">
+        <h1 className={`text-3xl font-bold mb-4 ${textClass}`}>Your Guidance Results</h1>
+        <p className={`${textMutedClass} text-sm`}>
           Based on your description, here's what we recommend. Remember: This is NOT a diagnosis.
         </p>
       </div>
@@ -70,23 +91,23 @@ export default function Result() {
       </div>
 
       {/* Main Content Card */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 space-y-6">
+      <div className={`${bgClass} border rounded-lg p-6 space-y-6`}>
         {/* Symptom Summary */}
         <div>
           <h2 className="text-xl font-bold text-blue-400 mb-2">📋 Symptom Summary</h2>
-          <p className="text-gray-300 leading-relaxed">{result.symptom_summary}</p>
+          <p className={`${textSecondaryClass} leading-relaxed`}>{result.symptom_summary}</p>
         </div>
 
         {/* Care Setting */}
-        <div className="border-t border-gray-700 pt-6">
+        <div className={`border-t ${borderClass} pt-6`}>
           <h2 className="text-lg font-bold text-blue-400 mb-2">{careSetting.icon} Recommended Care Setting</h2>
-          <p className="text-lg text-white font-semibold mb-2">{careSetting.label}</p>
-          <p className="text-gray-300 text-sm leading-relaxed">{result.urgency_advice}</p>
+          <p className={`text-lg ${textClass} font-semibold mb-2`}>{careSetting.label}</p>
+          <p className={`${textSecondaryClass} text-sm leading-relaxed`}>{result.urgency_advice}</p>
         </div>
 
         {/* Recommended Specialties */}
         {result.recommended_specialties && result.recommended_specialties.length > 0 && (
-          <div className="border-t border-gray-700 pt-6">
+          <div className={`border-t ${borderClass} pt-6`}>
             <h2 className="text-lg font-bold text-blue-400 mb-3">🏨 Recommended Departments/Specialties</h2>
             <div className="flex flex-wrap gap-2">
               {result.recommended_specialties.map((spec) => (
@@ -103,14 +124,14 @@ export default function Result() {
       <DisclaimerBanner />
 
       {/* Additional Information Sections */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 space-y-6">
+      <div className={`${bgClass} border rounded-lg p-6 space-y-6`}>
         <AdviceSection
           title="Suggested Next Steps"
           content={result.suggested_next_steps}
           icon="✅"
         />
 
-        <div className="border-t border-gray-700 pt-6">
+        <div className={`border-t ${borderClass} pt-6`}>
           <AdviceSection
             title="Red Flag Symptoms (Seek Immediate Help If:)"
             content={result.red_flag_symptoms_to_watch}
@@ -118,7 +139,7 @@ export default function Result() {
           />
         </div>
 
-        <div className="border-t border-gray-700 pt-6">
+        <div className={`border-t ${borderClass} pt-6`}>
           <AdviceSection
             title="Self-Care Tips"
             content={result.self_care_tips}
@@ -127,7 +148,7 @@ export default function Result() {
         </div>
 
         {result.clarifying_questions && result.clarifying_questions.length > 0 && (
-          <div className="border-t border-gray-700 pt-6">
+          <div className={`border-t ${borderClass} pt-6`}>
             <AdviceSection
               title="Questions to Ask Your Doctor"
               content={result.clarifying_questions}
@@ -139,8 +160,23 @@ export default function Result() {
 
       {/* Hospital Recommendations */}
       {city && (
-        <div className="bg-gray-800 border border-gray-700 rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-blue-400 mb-4">🏥 Nearby Hospitals in {city}</h2>
+        <div className={`${bgClass} border rounded-lg p-6`}>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-blue-400">🏥 Nearby Hospitals in {city}</h2>
+            {result.recommended_specialties?.[0] && (
+              <span className={`text-sm ${textMutedClass}`}>
+                Filtered by: {result.recommended_specialties[0]}
+              </span>
+            )}
+          </div>
+          {!loadingHospitals && hospitals.length === 0 && (
+            <div className={`${bgClass} border rounded-lg p-4 mb-4 ${textSecondaryClass} text-sm`}>
+              <p className="mb-2">No hospitals found matching the selected criteria.</p>
+              <p className={`text-xs ${textMutedClass}`}>
+                Try selecting a different city or check back later. In an emergency, call emergency services immediately.
+              </p>
+            </div>
+          )}
           <HospitalList
             hospitals={hospitals}
             loading={loadingHospitals}
@@ -150,7 +186,7 @@ export default function Result() {
       )}
 
       {/* Disclaimer Footer */}
-      <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-sm text-gray-300 leading-relaxed">
+      <div className={`${bgClass} border rounded-lg p-6 text-sm ${textSecondaryClass} leading-relaxed`}>
         <h3 className="font-bold text-red-400 mb-2">⚠️ Full Disclaimer</h3>
         <p className="mb-3">{result.disclaimer}</p>
         <p>
@@ -170,8 +206,14 @@ export default function Result() {
           Start Over
         </button>
         <button
+          onClick={() => navigate('/history')}
+          className={`${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'} font-bold py-3 px-8 rounded-lg transition-colors`}
+        >
+          View History
+        </button>
+        <button
           onClick={() => window.print()}
-          className="bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-lg transition-colors"
+          className={`${theme === 'dark' ? 'bg-gray-700 hover:bg-gray-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-900'} font-bold py-3 px-8 rounded-lg transition-colors`}
         >
           Print Results
         </button>

@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// API base URL - uses Render backend in production
-const API_BASE = 'https://mediforcast-app.onrender.com/api';
+// API base URL - change to localhost for local development
+const API_BASE = import.meta.env.DEV 
+  ? 'http://localhost:5000/api' 
+  : 'https://mediforcast-app.onrender.com/api';
 
 const client = axios.create({
   baseURL: API_BASE,

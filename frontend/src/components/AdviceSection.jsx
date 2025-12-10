@@ -1,6 +1,10 @@
 import React from 'react';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function AdviceSection({ title, content, icon = '•' }) {
+  const { theme } = useTheme();
+  const textSecondaryClass = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
+
   if (!content || (Array.isArray(content) && content.length === 0)) {
     return null;
   }
@@ -11,14 +15,14 @@ export default function AdviceSection({ title, content, icon = '•' }) {
       {Array.isArray(content) ? (
         <ul className="list-none space-y-2 ml-4">
           {content.map((item, idx) => (
-            <li key={idx} className="text-gray-300 text-sm">
+            <li key={idx} className={`${textSecondaryClass} text-sm`}>
               <span className="text-blue-400 mr-2">→</span>
               {item}
             </li>
           ))}
         </ul>
       ) : (
-        <p className="text-gray-300 text-sm leading-relaxed">{content}</p>
+        <p className={`${textSecondaryClass} text-sm leading-relaxed`}>{content}</p>
       )}
     </div>
   );
