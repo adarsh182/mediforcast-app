@@ -61,16 +61,61 @@ SAFETY RULES:
 
 If information is missing, make cautious assumptions and add relevant clarifying questions.`;
 
+// 30s timeout so long, detailed Gemini responses are never cut off mid-generation.
+const GEMINI_TIMEOUT_MS = 30000;
+const MAX_RETRIES = 1;
+const RETRY_DELAY_MS = 1000;
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function isRetryableError(error) {
+  // Timeouts and network resets
+  if (error.code === 'ECONNABORTED' || error.code === 'ECONNRESET') return true;
+  // Rate limits and transient server errors from the Gemini API
+  const status = error.response?.status;
+  return status === 429 || (status >= 500 && status < 600);
+}
+
+function parseGeminiResponse(response) {
+  const textContent = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!textContent) {
+    console.error('Gemini response structure:', JSON.stringify(response.data, null, 2));
+    throw new Error('No response text from Gemini');
+  }
+
+  // Parse JSON from response
+  let jsonStr = textContent.trim();
+
+  // Remove markdown code blocks if present
+  if (jsonStr.startsWith('```json')) {
+    jsonStr = jsonStr.slice(7);
+  }
+  if (jsonStr.startsWith('```')) {
+    jsonStr = jsonStr.slice(3);
+  }
+  if (jsonStr.endsWith('```')) {
+    jsonStr = jsonStr.slice(0, -3);
+  }
+
+  // Try to extract JSON object
+  const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) {
+    console.error('Could not find JSON in response:', jsonStr);
+    throw new Error('Could not find JSON in response');
+  }
+
+  return JSON.parse(jsonMatch[0]);
+}
+
 async function callGeminiForSymptoms(symptoms, ageRange, gender, chronicConditions) {
-  try {
-    const apiKey = process.env.GEMINI_API_KEY;
-    const apiUrl = process.env.GEMINI_API_URL;
+  const apiKey = process.env.GEMINI_API_KEY;
+  const apiUrl = process.env.GEMINI_API_URL;
 
-    if (!apiKey || !apiUrl) {
-      throw new Error('Gemini API configuration is missing');
-    }
+  if (!apiKey || !apiUrl) {
+    throw new Error('Gemini API configuration is missing');
+  }
 
-    const userPrompt = `
+  const userPrompt = `
 User symptoms: ${symptoms}
 Age range: ${ageRange || 'not specified'}
 Gender: ${gender || 'not specified'}
@@ -78,118 +123,125 @@ Chronic conditions: ${chronicConditions && chronicConditions.length > 0 ? chroni
 
 Please analyze these symptoms and provide guidance in the exact JSON format specified.`;
 
-    const payload = {
-      contents: [
-        {
-          role: 'user',
-          parts: [
-            {
-              text: SYMPTOM_GUIDE_SYSTEM_PROMPT + '\n\n' + userPrompt,
-            },
-          ],
+  const payload = {
+    contents: [
+      {
+        role: 'user',
+        parts: [
+          {
+            text: SYMPTOM_GUIDE_SYSTEM_PROMPT + '\n\n' + userPrompt,
+          },
+        ],
+      },
+    ],
+  };
+
+  let lastError;
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const response = await axios.post(apiUrl, payload, {
+        headers: {
+          'Content-Type': 'application/json',
         },
-      ],
-    };
-
-    const response = await axios.post(apiUrl, payload, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      params: {
-        key: apiKey,
-      },
-      timeout: 15000,
-    });
-
-    const textContent = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!textContent) {
-      console.error('Gemini response structure:', JSON.stringify(response.data, null, 2));
-      throw new Error('No response text from Gemini');
+        params: {
+          key: apiKey,
+        },
+        timeout: GEMINI_TIMEOUT_MS,
+      });
+      return parseGeminiResponse(response);
+    } catch (error) {
+      lastError = error;
+      console.error(`Gemini API error (attempt ${attempt + 1}):`, error.message);
+      if (error.response?.data) {
+        console.error('API error details:', error.response.data);
+      }
+      if (attempt < MAX_RETRIES && isRetryableError(error)) {
+        await sleep(RETRY_DELAY_MS * (attempt + 1));
+        continue;
+      }
+      throw lastError;
     }
-
-    // Parse JSON from response
-    let jsonStr = textContent.trim();
-
-    // Remove markdown code blocks if present
-    if (jsonStr.startsWith('```json')) {
-      jsonStr = jsonStr.slice(7);
-    }
-    if (jsonStr.startsWith('```')) {
-      jsonStr = jsonStr.slice(3);
-    }
-    if (jsonStr.endsWith('```')) {
-      jsonStr = jsonStr.slice(0, -3);
-    }
-
-    // Try to extract JSON object
-    const jsonMatch = jsonStr.match(/\{[\s\S]*\}/);
-    if (!jsonMatch) {
-      console.error('Could not find JSON in response:', jsonStr);
-      throw new Error('Could not find JSON in response');
-    }
-
-    const parsedResult = JSON.parse(jsonMatch[0]);
-    return parsedResult;
-  } catch (error) {
-    console.error('Gemini API error:', error.message);
-    if (error.response?.data) {
-      console.error('API error details:', error.response.data);
-    }
-    throw error;
   }
+  throw lastError;
 }
 
+const VALID_SEVERITY_LEVELS = ['low', 'medium', 'high', 'emergency'];
+const VALID_CARE_SETTINGS = [
+  'self-care',
+  'outpatient-clinic',
+  'urgent-care-same-day',
+  'emergency-department',
+];
+
+// Returns value if it is a non-empty string, otherwise the fallback.
+function asString(value, fallback) {
+  return typeof value === 'string' && value.trim().length > 0 ? value : fallback;
+}
+
+// Returns a non-empty array of non-empty strings, otherwise the fallback.
+// A single string is wrapped into an array (Gemini sometimes returns scalars).
+function asStringArray(value, fallback) {
+  if (Array.isArray(value)) {
+    const items = value.filter((v) => typeof v === 'string' && v.trim().length > 0);
+    return items.length > 0 ? items : fallback;
+  }
+  if (typeof value === 'string' && value.trim().length > 0) {
+    return [value];
+  }
+  return fallback;
+}
+
+// Validates and normalizes the Gemini result. Every field is type-checked and
+// enum fields are validated against their allowed values, falling back to
+// conservative defaults. Content is never truncated — only invalid/malformed
+// fields are replaced.
 function buildSafeResult(geminiResult) {
-  const defaults = {
-    symptom_summary: 'Unable to process symptoms at this time.',
-    possible_body_systems: ['general'],
-    severity_level: 'medium',
-    recommended_care_setting: 'outpatient-clinic',
-    recommended_specialties: ['General Physician'],
-    urgency_advice: 'Please consult a qualified healthcare provider for proper evaluation.',
-    suggested_next_steps: [
+  const raw = geminiResult && typeof geminiResult === 'object' ? geminiResult : {};
+
+  const result = {
+    symptom_summary: asString(raw.symptom_summary, 'Unable to process symptoms at this time.'),
+    possible_body_systems: asStringArray(raw.possible_body_systems, ['general']),
+    severity_level: VALID_SEVERITY_LEVELS.includes(raw.severity_level)
+      ? raw.severity_level
+      : 'medium',
+    recommended_care_setting: VALID_CARE_SETTINGS.includes(raw.recommended_care_setting)
+      ? raw.recommended_care_setting
+      : 'outpatient-clinic',
+    recommended_specialties: asStringArray(raw.recommended_specialties, ['General Physician']),
+    urgency_advice: asString(
+      raw.urgency_advice,
+      'Please consult a qualified healthcare provider for proper evaluation.'
+    ),
+    suggested_next_steps: asStringArray(raw.suggested_next_steps, [
       'Schedule an appointment with a healthcare provider',
       'Keep track of symptom changes',
       'Avoid self-medication',
-    ],
-    red_flag_symptoms_to_watch: [
+    ]),
+    red_flag_symptoms_to_watch: asStringArray(raw.red_flag_symptoms_to_watch, [
       'Severe pain',
       'Difficulty breathing',
       'Loss of consciousness',
-    ],
-    clarifying_questions: [],
-    self_care_tips: ['Rest', 'Stay hydrated', 'Monitor your symptoms'],
-    disclaimer: 'This is NOT a medical diagnosis. Always consult a qualified healthcare provider.',
+    ]),
+    clarifying_questions: asStringArray(raw.clarifying_questions, []),
+    self_care_tips: asStringArray(raw.self_care_tips, [
+      'Rest',
+      'Stay hydrated',
+      'Monitor your symptoms',
+    ]),
+    disclaimer: asString(
+      raw.disclaimer,
+      'This is NOT a medical diagnosis. Always consult a qualified healthcare provider.'
+    ),
   };
 
-  // Merge with defaults
-  const result = { ...defaults, ...geminiResult };
-
-  // Ensure arrays are arrays
-  if (!Array.isArray(result.possible_body_systems)) {
-    result.possible_body_systems = [result.possible_body_systems];
-  }
-  if (!Array.isArray(result.recommended_specialties)) {
-    result.recommended_specialties = [result.recommended_specialties];
-  }
-  if (!Array.isArray(result.suggested_next_steps)) {
-    result.suggested_next_steps = [result.suggested_next_steps];
-  }
-  if (!Array.isArray(result.red_flag_symptoms_to_watch)) {
-    result.red_flag_symptoms_to_watch = [result.red_flag_symptoms_to_watch];
-  }
-  if (!Array.isArray(result.clarifying_questions)) {
-    result.clarifying_questions = [];
-  }
-  if (!Array.isArray(result.self_care_tips)) {
-    result.self_care_tips = [result.self_care_tips];
-  }
-
   // Safety check: if severity is high or emergency, ensure urgency_advice mentions emergency
-  if (result.severity_level === 'high' || result.severity_level === 'emergency' ||
-      result.recommended_care_setting === 'emergency-department') {
-    if (!result.urgency_advice.toLowerCase().includes('emergency') &&
-        !result.urgency_advice.toLowerCase().includes('urgent')) {
+  if (
+    result.severity_level === 'high' ||
+    result.severity_level === 'emergency' ||
+    result.recommended_care_setting === 'emergency-department'
+  ) {
+    const advice = result.urgency_advice.toLowerCase();
+    if (!advice.includes('emergency') && !advice.includes('urgent')) {
       result.urgency_advice = `URGENT: ${result.urgency_advice} Seek emergency care or call emergency services immediately if symptoms worsen.`;
     }
   }

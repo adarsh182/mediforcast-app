@@ -93,4 +93,5 @@ router.get('/', (req, res) => {
   }
 });
 
+export { normalizeDepartment, departmentMatches };
 export default router;
