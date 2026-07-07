@@ -1,7 +1,52 @@
 import express from 'express';
 import hospitalsData from '../data/hospitals.js';
+import { geocodePincode, fetchNearbyHospitals } from '../services/osmClient.js';
 
 const router = express.Router();
+
+// GET /api/hospitals/nearby?lat=..&lon=..  OR  ?pincode=400001
+// Live hospital data from OpenStreetMap around the user's location.
+router.get('/nearby', async (req, res) => {
+  try {
+    const { lat, lon, pincode } = req.query;
+    let coords = null;
+
+    if (lat != null && lon != null) {
+      const parsedLat = parseFloat(lat);
+      const parsedLon = parseFloat(lon);
+      if (
+        Number.isFinite(parsedLat) &&
+        Number.isFinite(parsedLon) &&
+        Math.abs(parsedLat) <= 90 &&
+        Math.abs(parsedLon) <= 180
+      ) {
+        coords = { lat: parsedLat, lon: parsedLon };
+      }
+    } else if (pincode) {
+      const trimmed = String(pincode).trim();
+      if (!/^\d{6}$/.test(trimmed)) {
+        return res.status(400).json({ error: 'Please enter a valid 6-digit pincode.', hospitals: [] });
+      }
+      coords = await geocodePincode(trimmed);
+      if (!coords) {
+        return res.status(404).json({ error: 'Could not find that pincode. Please check it and try again.', hospitals: [] });
+      }
+    }
+
+    if (!coords) {
+      return res.status(400).json({ error: 'Provide either lat & lon coordinates or a valid 6-digit pincode.', hospitals: [] });
+    }
+
+    const hospitals = await fetchNearbyHospitals(coords.lat, coords.lon);
+    res.json({ hospitals, count: hospitals.length, origin: coords, source: 'openstreetmap' });
+  } catch (error) {
+    console.error('Error fetching nearby hospitals:', error.message);
+    res.status(502).json({
+      error: 'Could not reach the hospital data service. Please try again.',
+      hospitals: [],
+    });
+  }
+});
 
 // Helper function to normalize department names for matching
 const normalizeDepartment = (dept) => {

@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { getHospitals } from '../api/client';
 import SeverityBadge from '../components/SeverityBadge';
 import AdviceSection from '../components/AdviceSection';
-import HospitalList from '../components/HospitalList';
+import NearbyHospitals from '../components/NearbyHospitals';
 import DisclaimerBanner from '../components/DisclaimerBanner';
-import LoadingSpinner from '../components/LoadingSpinner';
 import { useTheme } from '../contexts/ThemeContext';
 
 const careSettingMap = {
@@ -19,8 +17,6 @@ export default function Result() {
   const location = useLocation();
   const navigate = useNavigate();
   const { theme } = useTheme();
-  const [hospitals, setHospitals] = useState([]);
-  const [loadingHospitals, setLoadingHospitals] = useState(false);
 
   const result = location.state?.result;
   const city = location.state?.city;
@@ -37,37 +33,6 @@ export default function Result() {
       navigate('/');
     }
   }, [result, navigate]);
-
-  // Fetch hospitals on mount
-  useEffect(() => {
-    if (!city) {
-      setHospitals([]);
-      return;
-    }
-
-    setLoadingHospitals(true);
-    const department = result?.recommended_specialties?.[0];
-    
-    getHospitals(city, department)
-      .then((res) => {
-        const hospitalsList = res.data?.hospitals || [];
-        setHospitals(hospitalsList);
-        
-        // Log for debugging
-        if (hospitalsList.length === 0) {
-          console.log('No hospitals found for:', { city, department });
-        } else {
-          console.log(`Found ${hospitalsList.length} hospitals for:`, { city, department });
-        }
-      })
-      .catch((err) => {
-        console.error('Error fetching hospitals:', err);
-        setHospitals([]);
-      })
-      .finally(() => {
-        setLoadingHospitals(false);
-      });
-  }, [city, result]);
 
   if (!result) {
     return null;
@@ -158,32 +123,8 @@ export default function Result() {
         )}
       </div>
 
-      {/* Hospital Recommendations */}
-      {city && (
-        <div className={`${bgClass} border rounded-lg p-6`}>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-blue-400">🏥 Nearby Hospitals in {city}</h2>
-            {result.recommended_specialties?.[0] && (
-              <span className={`text-sm ${textMutedClass}`}>
-                Filtered by: {result.recommended_specialties[0]}
-              </span>
-            )}
-          </div>
-          {!loadingHospitals && hospitals.length === 0 && (
-            <div className={`${bgClass} border rounded-lg p-4 mb-4 ${textSecondaryClass} text-sm`}>
-              <p className="mb-2">No hospitals found matching the selected criteria.</p>
-              <p className={`text-xs ${textMutedClass}`}>
-                Try selecting a different city or check back later. In an emergency, call emergency services immediately.
-              </p>
-            </div>
-          )}
-          <HospitalList
-            hospitals={hospitals}
-            loading={loadingHospitals}
-            recommendedDept={result.recommended_specialties?.[0]}
-          />
-        </div>
-      )}
+      {/* Hospital Recommendations: geolocation -> pincode -> explanation */}
+      <NearbyHospitals city={city} recommendedDept={result.recommended_specialties?.[0]} />
 
       {/* Disclaimer Footer */}
       <div className={`${bgClass} border rounded-lg p-6 text-sm ${textSecondaryClass} leading-relaxed`}>

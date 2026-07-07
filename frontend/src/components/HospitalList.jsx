@@ -26,53 +26,74 @@ export default function HospitalList({ hospitals, loading, recommendedDept }) {
     );
   }
 
+  // Case-insensitive match so OSM speciality tags (lowercase) still highlight.
+  const isRecommended = (dept) =>
+    recommendedDept && dept.toLowerCase() === recommendedDept.toLowerCase();
+
   return (
     <div className="space-y-4">
-      {hospitals.map((hospital) => (
-        <div key={hospital.id} className={`${bgClass} border rounded-lg p-4 hover:border-blue-500 transition-colors`}>
-          <div className="flex justify-between items-start mb-2">
-            <div>
-              <h4 className={`font-semibold ${textClass}`}>{hospital.name}</h4>
-              <p className={`text-sm ${textSecondaryClass}`}>{hospital.address}</p>
-            </div>
-          </div>
-
-          <div className="mb-3">
-            <p className={`text-xs ${textMutedClass} mb-1`}>Available Departments:</p>
-            <div className="flex flex-wrap gap-1">
-              {hospital.departments.map((dept) => (
-                <span
-                  key={dept}
-                  className={`px-2 py-1 rounded text-xs ${
-                    dept === recommendedDept
-                      ? 'bg-blue-600 text-white'
-                      : badgeInactiveClass
-                  }`}
-                >
-                  {dept}
+      {hospitals.map((hospital) => {
+        // Static entries use `departments`; live OSM entries use `specialities`.
+        const departments = hospital.departments || hospital.specialities || [];
+        return (
+          <div key={hospital.id} className={`${bgClass} border rounded-lg p-4 hover:border-blue-500 transition-colors`}>
+            <div className="flex justify-between items-start mb-2 gap-2">
+              <div>
+                <h4 className={`font-semibold ${textClass}`}>{hospital.name}</h4>
+                <p className={`text-sm ${textSecondaryClass}`}>{hospital.address}</p>
+              </div>
+              {hospital.distanceKm != null && (
+                <span className={`shrink-0 text-xs px-2 py-1 rounded-full ${badgeInactiveClass}`}>
+                  📍 {hospital.distanceKm} km
                 </span>
-              ))}
+              )}
+            </div>
+
+            <div className="mb-3">
+              {departments.length > 0 ? (
+                <>
+                  <p className={`text-xs ${textMutedClass} mb-1`}>Available Departments:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {departments.map((dept) => (
+                      <span
+                        key={dept}
+                        className={`px-2 py-1 rounded text-xs ${
+                          isRecommended(dept) ? 'bg-blue-600 text-white' : badgeInactiveClass
+                        }`}
+                      >
+                        {dept}
+                      </span>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p className={`text-xs ${textMutedClass}`}>
+                  Specialty details not listed — please call the hospital to confirm they treat your condition.
+                </p>
+              )}
+            </div>
+
+            <div className={`flex gap-2 pt-3 border-t ${borderClass}`}>
+              {hospital.phone && (
+                <a
+                  href={`tel:${hospital.phone}`}
+                  className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded text-center transition-colors"
+                >
+                  📞 Call
+                </a>
+              )}
+              <a
+                href={hospital.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded text-center transition-colors"
+              >
+                🗺️ Directions
+              </a>
             </div>
           </div>
-
-          <div className={`flex gap-2 pt-3 border-t ${borderClass}`}>
-            <a
-              href={`tel:${hospital.phone}`}
-              className="flex-1 bg-green-600 hover:bg-green-700 text-white text-sm font-medium py-2 rounded text-center transition-colors"
-            >
-              📞 Call
-            </a>
-            <a
-              href={hospital.mapsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 rounded text-center transition-colors"
-            >
-              🗺️ Directions
-            </a>
-          </div>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
