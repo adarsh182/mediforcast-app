@@ -21,8 +21,4 @@ export const getHospitals = (city, department) => {
   return client.get('/hospitals', { params });
 };
 
-export const getPreviousChecks = () => {
-  return client.get('/symptoms/previous');
-};
-
 export default client;

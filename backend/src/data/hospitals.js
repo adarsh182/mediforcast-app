@@ -81,8 +81,6 @@ const hospitals = [
     mapsUrl: 'https://maps.google.com/?q=Dr.+Ram+Manohar+Lohia+Hospital+Delhi',
   },
   {
-    //Adarsh suun departments me kya dalna hai, department me Specalities daalu kya??? bolega
-    //Mumbai
     id: 10,
     name: 'Lilavati Hospital And Research Centre',
     city: 'Mumbai',
@@ -93,24 +91,23 @@ const hospitals = [
   },
   {
     id: 11,
-    name:'Sir Ganga Ram Hospital',
-    city:'New Delhi',
-    departments: ['Cardiology and Cardiac Surgery','Oncology', 'Neurology & Neurosurgery','Orthopaedics' , 'Ophthalmology', 'Transplant surgery'],
+    name: 'Sir Ganga Ram Hospital',
+    city: 'Delhi',
+    departments: ['Cardiology and Cardiac Surgery', 'Oncology', 'Neurology & Neurosurgery', 'Orthopaedics', 'Ophthalmology', 'Transplant surgery'],
     address: 'Rajinder Nagar, Delhi',
-    phone: '+91-11-4225 4000',
+    phone: '+91-11-42254000',
     mapsUrl: 'https://www.google.com/maps/search/sri+gangaram+hospital+delhi',
   },
   {
     id: 12,
-    name:'Primus Super Speciality Hospital ',
-    city:'New Delhi',
-    departments:['Orthopaedics','Neurology & Neurosurgery', 'ENT', 'IVF','Nephrology'],
+    name: 'Primus Super Speciality Hospital',
+    city: 'Delhi',
+    departments: ['Orthopaedics', 'Neurology & Neurosurgery', 'ENT', 'IVF', 'Nephrology'],
     address: '2, Chandragupta Marg, Chanakyapuri, New Delhi',
-    phone: '011 6620 6630',
+    phone: '+91-11-66206630',
     mapsUrl: 'https://www.google.com/maps/place/Primus+Super+Speciality+Hospital',
-
   },
-  { // Mumbai
+  {
     id: 13,
     name: 'Aaradhya Healthcare Superspeciality Hospital',
     city: 'Mumbai',
@@ -119,53 +116,42 @@ const hospitals = [
     phone: '+91-9988004321',
     mapsUrl: 'https://www.google.com/maps/place/Aaradhya+Healthcare+Superspeciality+Hospital+%7C+Marol+-+Andheri+East',
   },
-   {
+  {
     id: 14,
-    name: 'Apollo Sepctra Hospital',
+    name: 'Apollo Spectra Hospital',
     city: 'Mumbai',
     departments: ['ENT', 'Gynecology', 'Pediatrics', 'Emergency Medicine'],
     address: 'Chembur, Mumbai',
-    phone: ' 084484 40991',
+    phone: '+91-8448440991',
     mapsUrl: 'https://www.google.com/maps/place/Apollo+Spectra+Hospital+-+Chembur',
   },
   {
     id: 15,
-    name:'Indraprastha Apollo Hospital',
-    city:'New Delhi',
-    departments:['Cardiac Sciences', 'Oncology', 'Orthopaedics & Spine'],
+    name: 'Indraprastha Apollo Hospital',
+    city: 'Delhi',
+    departments: ['Cardiac Sciences', 'Oncology', 'Orthopaedics & Spine'],
     address: 'Delhi Mathura Road, Sarita Vihar, New Delhi',
-    phone: '080 6904 9768',
+    phone: '+91-80-69049768',
     mapsUrl: 'https://www.google.com/maps/place/Indraprastha+Apollo+Hospital',
   },
   {
-   id: 16,
-    name:'Sahyadri Super Speciality Hospital, Deccan Gymkhana, Pune',
-    city:'Pune',
-    departments:['Cardiology', 'Surgery', 'Neursurgery', ],
-    address: 'Delhi Mathura Road, Sarita Vihar, New Delhi',
-    phone: '080 6904 9768',
-    mapsUrl: 'https://www.google.com/maps/place/Indraprastha+Apollo+Hospital', 
-  },
-  {
     id: 17,
-    name:'Sahyadri Super Speciality Hospital',
-    city:'Pune',
-    departments:['Neurosciences', 'Cardiology', 'Organ Transplants', 'General Surgery'],
+    name: 'Sahyadri Super Speciality Hospital',
+    city: 'Pune',
+    departments: ['Neurosciences', 'Cardiology', 'Organ Transplants', 'General Surgery'],
     address: 'Deccan Gymkhana (Erandvane, Karve Rd)',
-    phone: ' 088888 22222',
-    mapsUrl: 'https://www.google.com/maps/search/Sahyadri+Super+Speciality+Hospital', 
+    phone: '+91-8888822222',
+    mapsUrl: 'https://www.google.com/maps/search/Sahyadri+Super+Speciality+Hospital',
   },
   {
     id: 18,
-    name:'Jupiter Hospital',
-    city:'Pune',
-    departments:['Bariatric Surgery', ' Cardiology', 'Neurology & Neurosurgery', ' Oncology'],
-    address: 'Near Prathamesh Park, Baner ',
-    phone: '+91-20 6637 5555',
-    mapsUrl: 'https://www.google.com/maps/place/Jupiter+Hospital', 
-  }
-  
-  
+    name: 'Jupiter Hospital',
+    city: 'Pune',
+    departments: ['Bariatric Surgery', 'Cardiology', 'Neurology & Neurosurgery', 'Oncology'],
+    address: 'Near Prathamesh Park, Baner',
+    phone: '+91-20-66375555',
+    mapsUrl: 'https://www.google.com/maps/place/Jupiter+Hospital',
+  },
 ];
 
 export default hospitals;
