@@ -1,0 +1,360 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SUMO - Assessment Results</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#51230e",
+                      "inverse-on-surface": "#303032",
+                      "surface-container": "#1f1f21",
+                      "surface-container-lowest": "#0e0e10",
+                      "surface-container-highest": "#353437",
+                      "secondary-fixed": "#dfe3e9",
+                      "surface-variant": "#353437",
+                      "inverse-surface": "#e5e1e4",
+                      "on-primary-fixed-variant": "#334576",
+                      "tertiary-container": "#ffb697",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-secondary-fixed-variant": "#43474c",
+                      "on-primary": "#002a78",
+                      "on-surface-variant": "#c5c6d0",
+                      "on-tertiary-container": "#7a452d",
+                      "text-primary": "#fafafa",
+                      "on-error-container": "#ffdad6",
+                      "secondary-container": "#454a4f",
+                      "primary": "#dbe2ff",
+                      "border-muted": "#27272a",
+                      "text-secondary": "#a1a1aa",
+                      "on-surface": "#e5e1e4",
+                      "severity-low": "#f59e0b",
+                      "on-secondary-container": "#b5b9bf",
+                      "tertiary-fixed-dim": "#ffb597",
+                      "severity-high": "#ef4444",
+                      "surface-container-low": "#1b1b1d",
+                      "surface-bright": "#39393b",
+                      "on-tertiary-fixed-variant": "#6c3922",
+                      "on-primary-fixed": "#021848",
+                      "on-primary-container": "#405183",
+                      "primary-container": "#b4c5ff",
+                      "secondary-fixed-dim": "#c3c7cd",
+                      "on-secondary-fixed": "#171c20",
+                      "on-secondary": "#2c3136",
+                      "on-error": "#690005",
+                      "background": "#131315",
+                      "error-container": "#93000a",
+                      "secondary": "#c3c7cd",
+                      "surface-container-high": "#2a2a2c",
+                      "outline-variant": "#45464f",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "error": "#ffb4ab",
+                      "surface-tint": "#b4c5ff",
+                      "tertiary": "#ffdbce",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-background": "#e5e1e4",
+                      "surface": "#131315",
+                      "surface-dim": "#131315",
+                      "inverse-primary": "#4c5c90",
+                      "outline": "#8f909a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "unit": "4px",
+                      "container-max": "1000px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Manrope"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "Manrope"
+                      ],
+                      "headline-lg-mobile": [
+                              "Manrope"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "body-md": [
+                              "Inter"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom); }
+        /* Severity Glow Effect */
+        .glow-severity-high {
+            box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+        }
+      </style>
+</head>
+<body class="bg-background text-text-primary font-body-md min-h-screen pb-24 md:pb-0">
+<!-- TopNavBar (Hidden on Mobile, Visible on md) -->
+<header class="hidden md:flex justify-between items-center px-margin-desktop max-w-container-max mx-auto w-full fixed top-0 h-[64px] z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant flat no shadows">
+<div class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed"><div class="flex items-center gap-2"><img src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas" alt="SUMO Logo" class="h-8 w-8"><span class="">SUMO</span></div></div>
+<nav class="flex items-center gap-6">
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Assess</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">History</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Facilities</a>
+<a class="text-on-surface-variant font-medium hover:text-primary transition-colors duration-200" href="#">Profile</a>
+</nav>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed cursor-pointer">dark_mode</span>
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed cursor-pointer">account_circle</span>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop pt-8 md:pt-24 pb-8 flex flex-col gap-10">
+<!-- Assessment Result Header -->
+<section class="flex flex-col items-center text-center gap-4 animate-fade-in-up"><div class="w-full bg-surface-container-highest border border-outline-variant rounded-xl p-4 mb-4 flex items-start gap-3 text-left">
+    <span class="material-symbols-outlined text-primary mt-0.5">info</span>
+    <div class="flex flex-col gap-1">
+        <p class="font-label-caps text-label-caps text-primary tracking-widest uppercase">AI Guidance Disclaimer</p>
+        <p class="font-body-sm text-body-sm text-on-surface-variant">
+            This assessment is AI-generated and may be incorrect. It is provided for informational purposes only and is not a medical diagnosis. <strong>Always consult a healthcare professional</strong> for medical concerns or emergencies.
+        </p>
+    </div>
+</div>
+<!-- Severity Badge -->
+<div class="inline-flex items-center gap-2 bg-severity-high/15 border border-severity-high/30 rounded-full px-4 py-2 glow-severity-high">
+<span class="material-symbols-outlined text-severity-high" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-caps text-label-caps text-severity-high tracking-widest uppercase">Emergency</span>
+</div>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-text-primary">
+                Seek Immediate Medical Attention
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">
+                Based on your reported symptoms (Severe chest pain, shortness of breath), this is potentially life-threatening.
+            </p>
+</section>
+<!-- Urgency Advice (Clean list) -->
+<section class="bg-surface-container rounded-2xl p-4 md:p-6 flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-text-primary border-b border-border-muted pb-2">
+                Urgency Advice
+            </h2>
+<ul class="flex flex-col gap-3">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-severity-high mt-0.5">priority_high</span>
+<span class="font-body-md text-body-md text-text-secondary">Do NOT attempt to drive yourself to the hospital.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">phone_in_talk</span>
+<span class="font-body-md text-body-md text-text-secondary">Call emergency services (911) immediately or have someone drive you.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">chair</span>
+<span class="font-body-md text-body-md text-text-secondary">Rest quietly and try to remain calm while waiting for help.</span>
+</li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary mt-0.5">medication</span>
+<span class="font-body-md text-body-md text-text-secondary">Unlock your front door for emergency responders.</span>
+</li>
+</ul>
+</section>
+<!-- Recommended Specialties (Cloud of chips) -->
+<section class="flex flex-col gap-4">
+<h2 class="font-headline-md text-headline-md text-text-primary">
+                Relevant Specialties
+            </h2>
+<div class="flex flex-wrap gap-2">
+<div class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-variant transition-colors rounded-full px-4 py-2 border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-sm">favorite</span>
+<span class="font-label-md text-label-md text-text-primary">Cardiology</span>
+</div>
+<div class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-variant transition-colors rounded-full px-4 py-2 border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-sm">pulmonology</span>
+<span class="font-label-md text-label-md text-text-primary">Pulmonology</span>
+</div>
+<div class="inline-flex items-center gap-2 bg-surface-container hover:bg-surface-variant transition-colors rounded-full px-4 py-2 border border-outline-variant">
+<span class="material-symbols-outlined text-primary text-sm">emergency</span>
+<span class="font-label-md text-label-md text-text-primary">Emergency Medicine</span>
+</div>
+</div>
+</section>
+<!-- Nearby Emergency Facilities -->
+<section class="flex flex-col gap-4">
+<div class="flex justify-between items-end">
+<h2 class="font-headline-md text-headline-md text-text-primary">
+                    Nearby Facilities
+                </h2>
+<span class="font-body-sm text-body-sm text-primary cursor-pointer hover:underline">View Map</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Hospital Card 1 -->
+<div class="bg-surface-container hover:bg-surface-variant transition-colors rounded-2xl p-4 md:p-6 flex flex-col gap-4 border border-transparent hover:border-border-muted group">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-primary">City General Hospital ER</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">123 Health Ave, Medical District</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-primary bg-primary/10 px-2 py-1 rounded">1.2 MILES</span>
+<span class="font-body-sm text-body-sm text-severity-high mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">local_hospital</span> ER Open</span>
+</div>
+</div>
+<div class="flex gap-3 mt-2">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md rounded-full py-3 px-4 flex justify-center items-center gap-2 hover:opacity-90 transition-opacity"><img src="https://lh3.googleusercontent.com/aida/AP1WRLuyVlcACSKq-eUYpgUf8h6LKjZajV2w_Evo_yfK4rf84sLA3Zq5ugpQQ1mOoZ49FXT0quEIKx71U9vMvQ-EG_1uQS6pcYsZmQRUoupbNWKEjYpjc5ibAS9wFc3DVl7uzdTuQUnWmzKhgRb6dlPhRK9s4PcuElZ-KIAFpoRie0VLI6TIq4PRJYZscywMDrdwPl2udBdQE_tgcBh-M3N03aspFLBn7OMAxGs1DVvCBH3dQhMidxWhHb8-dfE" class="h-4 w-4 mr-2" alt="">Call Facility</button>
+<button class="flex-1 bg-transparent border border-outline text-text-primary font-label-md text-label-md rounded-full py-3 px-4 flex justify-center items-center gap-2 hover:bg-surface-container-highest transition-colors"><img src="https://lh3.googleusercontent.com/aida/AP1WRLuLeHZgGwUqGO22WgBJ_t52hL4LwsNgPPvNYLXqlCJdckhr2lOpsudE5tJK-5CGNm_qezPhBdiqiEffIojl7sUUzPEuMQaNQNylHEfxJRsoKcu-7zSzvUNiFSGvB2zj5Civ8OV7gM0MdroBhNLIZdD7-0X4Swc1gGapEB6eRNIlwpPbHy-YAQ-nkx258htFcH0KjPRYjkabEg_-Q9erz6T6l2hhvO24ZJju78rLMzoLpmMam1HDjh6Ggag" class="h-4 w-4 mr-2" alt="">Directions</button>
+</div>
+</div>
+<!-- Hospital Card 2 -->
+<div class="bg-surface-container hover:bg-surface-variant transition-colors rounded-2xl p-4 md:p-6 flex flex-col gap-4 border border-transparent hover:border-border-muted group">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline-md text-headline-md text-text-primary">Mercy Regional Trauma Center</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">450 Mercy Drive</p>
+</div>
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-label-caps text-primary bg-primary/10 px-2 py-1 rounded">3.5 MILES</span>
+<span class="font-body-sm text-body-sm text-severity-high mt-1 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">local_hospital</span> ER Open</span>
+</div>
+</div>
+<div class="flex gap-3 mt-2">
+<button class="flex-1 bg-primary text-on-primary font-label-md text-label-md rounded-full py-3 px-4 flex justify-center items-center gap-2 hover:opacity-90 transition-opacity"><img src="https://lh3.googleusercontent.com/aida/AP1WRLuyVlcACSKq-eUYpgUf8h6LKjZajV2w_Evo_yfK4rf84sLA3Zq5ugpQQ1mOoZ49FXT0quEIKx71U9vMvQ-EG_1uQS6pcYsZmQRUoupbNWKEjYpjc5ibAS9wFc3DVl7uzdTuQUnWmzKhgRb6dlPhRK9s4PcuElZ-KIAFpoRie0VLI6TIq4PRJYZscywMDrdwPl2udBdQE_tgcBh-M3N03aspFLBn7OMAxGs1DVvCBH3dQhMidxWhHb8-dfE" class="h-4 w-4 mr-2" alt="">Call Facility</button>
+<button class="flex-1 bg-transparent border border-outline text-text-primary font-label-md text-label-md rounded-full py-3 px-4 flex justify-center items-center gap-2 hover:bg-surface-container-highest transition-colors"><img src="https://lh3.googleusercontent.com/aida/AP1WRLuLeHZgGwUqGO22WgBJ_t52hL4LwsNgPPvNYLXqlCJdckhr2lOpsudE5tJK-5CGNm_qezPhBdiqiEffIojl7sUUzPEuMQaNQNylHEfxJRsoKcu-7zSzvUNiFSGvB2zj5Civ8OV7gM0MdroBhNLIZdD7-0X4Swc1gGapEB6eRNIlwpPbHy-YAQ-nkx258htFcH0KjPRYjkabEg_-Q9erz6T6l2hhvO24ZJju78rLMzoLpmMam1HDjh6Ggag" class="h-4 w-4 mr-2" alt="">Directions</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on Mobile, Hidden on md) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container dark:bg-surface-container shadow-sm rounded-t-xl">
+<!-- Assess (Active) -->
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 opacity-80 transition-all duration-150 scale-95 hover:bg-surface-variant" href="#">
+<span class="material-symbols-outlined mb-1">medical_services</span>
+<span class="font-label-md text-label-md">Assess</span>
+</a>
+<!-- History (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all px-4 py-1" href="#">
+<span class="material-symbols-outlined mb-1">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<!-- Facilities (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all px-4 py-1" href="#">
+<span class="material-symbols-outlined mb-1">local_hospital</span>
+<span class="font-label-md text-label-md">Facilities</span>
+</a>
+<!-- Profile (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all px-4 py-1" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+<style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.4s ease-out forwards;
+        }
+    </style>
+
+
+</body></html>

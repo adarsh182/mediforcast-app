@@ -9,10 +9,10 @@ export default function UserManager({ onClose }) {
   const [formData, setFormData] = useState({ name: '', age: '', gender: '' });
   const [showAddForm, setShowAddForm] = useState(false);
 
-  const bgClass = theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200';
-  const textClass = theme === 'dark' ? 'text-white' : 'text-gray-900';
-  const textSecondaryClass = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
-  const inputBgClass = theme === 'dark' ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300 text-gray-900';
+  const bgClass = 'bg-th-card border-th-border';
+  const textClass = 'text-th-text';
+  const textSecondaryClass = 'text-th-text-secondary';
+  const inputBgClass = 'bg-th-input-bg border-th-input-border text-th-input-text';
 
   const handleAddUser = (e) => {
     e.preventDefault();
@@ -34,7 +34,11 @@ export default function UserManager({ onClose }) {
   };
 
   const handleDeleteUser = (userId) => {
-    if (window.confirm('Are you sure you want to delete this user? All their history will be deleted.')) {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this user? All their history will be deleted.'
+      )
+    ) {
       deleteUser(userId);
       if (editingUserId === userId) {
         setEditingUserId(null);
@@ -57,33 +61,34 @@ export default function UserManager({ onClose }) {
   };
 
   // Only show added users, not default user
-  const allUsers = users.filter(u => u.id !== 'default');
-  
+  const allUsers = users.filter((u) => u.id !== 'default');
+
   // Get current user name for display
   const getCurrentUserName = () => {
     if (currentUserId === 'default') {
       return 'Default User';
     }
-    const user = users.find(u => u.id === currentUserId);
+    const user = users.find((u) => u.id === currentUserId);
     return user?.name || 'Default User';
   };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className={`${bgClass} border rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto`}>
+      <div
+        className={`${bgClass} border rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto`}
+      >
         <div className="flex items-center justify-between mb-6">
           <h2 className={`text-2xl font-bold ${textClass}`}>Manage Users</h2>
-          <button
-            onClick={onClose}
-            className={`text-2xl ${textSecondaryClass} hover:${textClass}`}
-          >
+          <button onClick={onClose} className={`text-2xl ${textSecondaryClass} hover:${textClass}`}>
             ×
           </button>
         </div>
 
         {/* Current User Indicator */}
-        <div className={`${theme === 'dark' ? 'bg-blue-900' : 'bg-blue-50'} border border-blue-500 rounded-lg p-3 mb-4`}>
-          <p className={`text-sm ${theme === 'dark' ? 'text-blue-200' : 'text-blue-800'}`}>
+        <div
+          className="bg-th-info-bg border border-blue-500 rounded-lg p-3 mb-4"
+        >
+          <p className="text-sm text-th-info-text">
             <strong>Current User:</strong> {getCurrentUserName()}
             {currentUserId === 'default' && (
               <span className="ml-2 text-xs bg-blue-600 text-white px-2 py-1 rounded">Default</span>
@@ -151,7 +156,9 @@ export default function UserManager({ onClose }) {
                     <div className="flex items-center gap-2">
                       <h3 className={`font-semibold ${textClass}`}>{user.name}</h3>
                       {currentUserId === user.id && (
-                        <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded">Active</span>
+                        <span className="text-xs bg-blue-600 text-white px-2 py-1 rounded">
+                          Active
+                        </span>
                       )}
                     </div>
                     {(user.age || user.gender) && (
@@ -263,4 +270,3 @@ export default function UserManager({ onClose }) {
     </div>
   );
 }
-

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en" style=""><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SUMO - Login</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "outline": "#8f909a",
+                "background": "#131315",
+                "on-secondary-container": "#b5b9bf",
+                "surface-container-lowest": "#0e0e10",
+                "surface-container-low": "#1b1b1d",
+                "on-tertiary-container": "#7a452d",
+                "primary-fixed": "#dbe1ff",
+                "on-tertiary-fixed-variant": "#6c3922",
+                "on-surface": "#e5e1e4",
+                "on-error": "#690005",
+                "on-primary-fixed-variant": "#334576",
+                "surface-bright": "#39393b",
+                "surface": "#131315",
+                "secondary-container": "#454a4f",
+                "surface-dim": "#131315",
+                "on-primary-fixed": "#021848",
+                "on-primary": "#1c2e5e",
+                "on-background": "#e5e1e4",
+                "severity-high": "#ef4444",
+                "surface-container-high": "#2a2a2c",
+                "inverse-surface": "#e5e1e4",
+                "on-secondary-fixed": "#171c20",
+                "border-muted": "#27272a",
+                "on-primary-container": "#405183",
+                "primary": "#dbe2ff",
+                "tertiary-container": "#ffb697",
+                "surface-variant": "#353437",
+                "on-tertiary": "#51230e",
+                "surface-container-highest": "#353437",
+                "secondary": "#c3c7cd",
+                "secondary-fixed-dim": "#c3c7cd",
+                "surface-tint": "#b4c5ff",
+                "surface-container": "#201f22",
+                "tertiary-fixed": "#ffdbcd",
+                "outline-variant": "#45464f",
+                "on-surface-variant": "#c5c6d0",
+                "primary-container": "#b4c5ff",
+                "error": "#ffb4ab",
+                "inverse-primary": "#4c5c90",
+                "severity-low": "#f59e0b",
+                "text-primary": "#fafafa",
+                "on-tertiary-fixed": "#360f00",
+                "on-error-container": "#ffdad6",
+                "error-container": "#93000a",
+                "tertiary-fixed-dim": "#ffb597",
+                "text-secondary": "#a1a1aa",
+                "secondary-fixed": "#dfe3e9",
+                "primary-fixed-dim": "#b4c5ff",
+                "inverse-on-surface": "#303032",
+                "tertiary": "#ffdbce",
+                "on-secondary-fixed-variant": "#43474c",
+                "on-secondary": "#2c3136"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+        },
+        "spacing": {
+                "margin-desktop": "40px",
+                "gutter": "24px",
+                "margin-mobile": "16px",
+                "unit": "4px",
+                "container-max": "1000px"
+        },
+        "fontFamily": {
+                "headline-lg-mobile": [
+                        "Manrope"
+                ],
+                "body-sm": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Manrope"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-caps": [
+                        "JetBrains Mono"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Manrope"
+                ],
+                "display-lg": [
+                        "Manrope"
+                ]
+        },
+        "fontSize": {
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-sm": [
+                        "14px",
+                        {
+                                "lineHeight": "1.5",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "12px",
+                        {
+                                "lineHeight": "1.0",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-caps": [
+                        "12px",
+                        {
+                                "lineHeight": "1.0",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "600"
+                        }
+                ],
+                "display-lg": [
+                        "48px",
+                        {
+                                "lineHeight": "1.2",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style type="text/tailwindcss">
+        @layer utilities {
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            }
+        }
+    </style>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-background text-on-surface font-body-md min-h-screen flex items-center justify-center relative overflow-hidden">
+<!-- Minimalist Ambient Background -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-20%] right-[-10%] w-[40%] h-[40%] bg-secondary/10 rounded-full blur-[100px]"></div>
+</div>
+<!-- Main Container -->
+<main class="w-full max-w-[480px] px-margin-mobile md:px-margin-desktop z-10">
+<!-- Login Card -->
+<div class="bg-surface-container rounded-[1.25rem] p-8 md:p-10 shadow-lg border border-border-muted hover:bg-surface-variant/30 transition-colors duration-300">
+<!-- Branding -->
+<div class="text-center mb-10 flex flex-col items-center justify-center">
+<img alt="SUMO Logo" class="h-16 w-auto mx-auto mb-2 text-primary" src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas"/>
+<h1 class="font-headline-md text-headline-md text-text-primary tracking-tight">SUMO</h1>
+<p class="font-body-md text-body-md text-text-secondary mt-1">Clinical Assessment Platform</p>
+</div>
+<!-- Form -->
+<form action="#" class="space-y-6" method="POST">
+<!-- Email Input -->
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-text-secondary block" for="email">Email Address</label>
+<div class="relative">
+<i class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary" data-lucide="mail"></i>
+<input class="w-full bg-surface-container border border-border-muted rounded-2xl py-4 pl-12 pr-4 text-text-primary font-body-md placeholder-text-secondary/50 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors" id="email" name="email" placeholder="provider@hospital.org" required="" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="space-y-2">
+<div class="flex justify-between items-center block">
+<label class="font-label-md text-label-md text-text-secondary" for="password">Password</label>
+<a class="font-label-md text-label-md text-primary hover:text-primary-fixed transition-colors" href="#">Forgot?</a>
+</div>
+<div class="relative">
+<i class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-secondary" data-lucide="lock"></i>
+<input class="w-full bg-surface-container border border-border-muted rounded-2xl py-4 pl-12 pr-4 text-text-primary font-body-md placeholder-text-secondary/50 focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none transition-colors" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+</div>
+</div>
+<!-- Actions -->
+<div class="pt-4">
+<button class="w-full bg-primary hover:bg-primary-fixed text-on-primary font-label-md text-[16px] rounded-full py-4 px-6 shadow-[0_0_15px_rgba(219,226,255,0.15)] transition-all flex items-center justify-center gap-2 font-medium" type="submit">
+<span class="">Authenticate</span>
+<i class="w-5 h-5" data-lucide="arrow-right"></i>
+</button>
+</div>
+</form>
+<!-- Divider -->
+<div class="flex items-center my-8">
+<div class="flex-grow border-t border-border-muted"></div>
+<span class="px-4 font-label-caps text-label-caps text-text-secondary">OR</span>
+<div class="flex-grow border-t border-border-muted"></div>
+</div>
+<!-- Secondary Actions -->
+<div class="text-center">
+<p class="font-body-sm text-body-sm text-text-secondary mb-4">Need platform access?</p>
+<button class="inline-flex w-full items-center justify-center bg-transparent border border-border-muted text-text-primary font-label-md text-[14px] rounded-full py-4 px-6 hover:bg-surface-variant transition-colors" href="#">
+                    Request Credentials
+                </button>
+</div>
+<div class="mt-8 p-4 bg-surface-container border border-border-muted rounded-xl flex gap-3 items-start">
+<img alt="Info" class="w-5 h-5 mt-0.5 text-text-secondary" src="https://lh3.googleusercontent.com/aida/AP1WRLspEawIm94P5Zt5fB_KxMFhN8yuc8fKTwCwdCKok8BLUjvk8FwFXdUoz0WfTY4t5pWYK1jSLniYUYLX-5vyQX7KbnOJMJ7bjWksoNxleEb0Gi7QEVyEEUg9b6s_9Y4NeFmYJaE3-cjflQdXoND5vrKwwBJdQ7-hWB0cJPhPknMZcjXH7vhXKSP_0gJ3-xaQwpNJLTY3w6O0u6rY-esxjEuov0zdlNhq4dG2tsLd4bzvlJq_mcxLtzZuaMM"/>
+<p class="text-body-sm font-body-sm text-text-secondary leading-relaxed">
+        This platform uses AI for preliminary guidance. AI-generated insights may be inaccurate; always verify with clinical documentation.
+    </p>
+</div></div>
+<!-- Security Badge -->
+<div class="mt-8 flex items-center justify-center gap-2 text-text-secondary opacity-60">
+<i class="w-4 h-4" data-lucide="shield-check"></i>
+<span class="font-label-caps text-label-caps">HIPAA COMPLIANT SECURE LOGIN</span>
+</div>
+</main>
+<script>
+  lucide.createIcons();
+</script>
+</body></html>

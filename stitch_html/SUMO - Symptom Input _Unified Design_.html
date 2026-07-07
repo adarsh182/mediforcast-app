@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Symptom Input Dashboard - SUMO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-primary": "#006b5f",
+                "inverse-on-surface": "#283044",
+                "surface": "#0b1326",
+                "secondary": "#c0c1ff",
+                "on-secondary": "#1000a9",
+                "on-secondary-container": "#b0b2ff",
+                "surface-dim": "#0b1326",
+                "surface-container-low": "#131b2e",
+                "primary": "#57f1db",
+                "on-secondary-fixed": "#07006c",
+                "on-tertiary-container": "#744000",
+                "surface-variant": "#2d3449",
+                "tertiary-fixed": "#ffdcc0",
+                "secondary-fixed-dim": "#c0c1ff",
+                "on-primary-fixed-variant": "#005047",
+                "on-error-container": "#ffdad6",
+                "error": "#ffb4ab",
+                "primary-container": "#2dd4bf",
+                "tertiary-fixed-dim": "#ffb875",
+                "surface-bright": "#31394d",
+                "tertiary": "#ffd1aa",
+                "surface-container-highest": "#2d3449",
+                "outline": "#859490",
+                "primary-fixed-dim": "#3cddc7",
+                "primary-fixed": "#62fae3",
+                "outline-variant": "#3c4a46",
+                "surface-tint": "#3cddc7",
+                "on-tertiary": "#4b2800",
+                "on-surface-variant": "#bacac5",
+                "secondary-container": "#3131c0",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-surface": "#dae2fd",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "on-primary-fixed": "#00201c",
+                "inverse-surface": "#dae2fd",
+                "background": "#0b1326",
+                "surface-container-high": "#222a3d",
+                "secondary-fixed": "#e1e0ff",
+                "on-primary-container": "#00574d",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "surface-container": "#171f33",
+                "surface-container-lowest": "#060e20",
+                "on-background": "#dae2fd",
+                "tertiary-container": "#ffac5a",
+                "on-tertiary-fixed": "#2d1600",
+                "on-primary": "#003731"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "unit": "4px",
+                "margin-mobile": "16px",
+                "margin-desktop": "48px",
+                "gutter": "24px",
+                "container-max": "1440px"
+        },
+        "fontFamily": {
+                "headline-xl": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg-mobile": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ]
+        },
+        "fontSize": {
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[72px] bg-surface/90 backdrop-blur-md dark:bg-surface/90 w-full border-b border-outline-variant dark:border-outline-variant">
+<div class="flex items-center gap-3">
+<img alt="SUMO Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas"/>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary tracking-tight">SUMO</span>
+</div>
+<div class="hidden md:flex gap-6 items-center h-full">
+<!-- Navigation items intentionally omitted based on semantic shell logic (symptom input is transactional/focused) -->
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Toggle dark mode" class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 transition-transform border border-outline-variant">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dark_mode</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar Logic: Suppressed because Symptom Input is a linear/transactional flow -->
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-gutter py-8 md:py-16 flex flex-col items-center justify-center">
+<!-- Medical Disclaimer Banner -->
+<div class="w-full max-w-3xl mb-10 bg-surface-container border border-outline-variant rounded-xl p-5 flex items-start gap-4 shadow-sm relative overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-r from-tertiary-container/5 to-transparent pointer-events-none"></div>
+<img alt="Disclaimer Icon" class="h-12 w-12 object-contain shrink-0" src="https://lh3.googleusercontent.com/aida/AP1WRLspEawIm94P5Zt5fB_KxMFhN8yuc8fKTwCwdCKok8BLUjvk8FwFXdUoz0WfTY4t5pWYK1jSLniYUYLX-5vyQX7KbnOJMJ7bjWksoNxleEb0Gi7QEVyEEUg9b6s_9Y4NeFmYJaE3-cjflQdXoND5vrKwwBJdQ7-hWB0cJPhPknMZcjXH7vhXKSP_0gJ3-xaQwpNJLTY3w6O0u6rY-esxjEuov0zdlNhq4dG2tsLd4bzvlJq_mcxLtzZuaMM"/>
+<div class="relative z-10 pt-1">
+<h2 class="font-headline-md text-[18px] leading-[24px] font-semibold text-on-surface mb-1.5">Medical Disclaimer</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Not a diagnostic tool. Consult a professional. This platform provides general guidance based on provided symptoms and should not replace professional medical advice, diagnosis, or treatment.</p>
+</div>
+</div>
+<!-- Center Focus Elevated Card -->
+<div class="w-full max-w-3xl bg-surface-container-low border border-outline-variant rounded-[24px] p-6 md:p-10 shadow-lg">
+<div class="mb-8">
+<h1 class="font-headline-xl text-[32px] md:text-[40px] leading-[1.2] text-on-surface mb-3 tracking-tight">Describe your symptoms</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Please be as detailed as possible to help us provide accurate guidance.</p>
+</div>
+<!-- Symptom Text Area -->
+<div class="mb-10">
+<label class="sr-only" for="symptoms">Describe your symptoms</label>
+<textarea class="w-full bg-surface-dim border border-outline-variant rounded-xl p-5 font-body-lg text-[16px] text-on-surface placeholder:text-on-surface-variant focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none shadow-inner" id="symptoms" placeholder="E.g., I've had a persistent headache and mild fever for the last two days..." rows="5"></textarea>
+</div>
+<!-- Grid of Selector Pills -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+<!-- Age Range -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-[0.08em]">Age Range</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">18-30</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-md text-[15px] font-medium transition-colors ring-1 ring-primary/30">31-50</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">51+</button>
+</div>
+</div>
+<!-- Gender -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-[0.08em]">Gender</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">Male</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-md text-[15px] font-medium transition-colors ring-1 ring-primary/30">Female</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">Other</button>
+</div>
+</div>
+<!-- City -->
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant mb-4 uppercase tracking-[0.08em]">City</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">Mumbai</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant bg-surface hover:bg-surface-variant text-on-surface font-body-md text-[15px] font-medium transition-colors">Pune</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-md text-[15px] font-medium transition-colors ring-1 ring-primary/30">Delhi</button>
+</div>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full bg-primary hover:bg-primary/90 text-on-primary font-headline-md text-[18px] py-4.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-[0.98] shadow-[0_4px_14px_0_rgba(87,241,219,0.2)] hover:shadow-[0_6px_20px_rgba(87,241,219,0.3)] min-h-[56px]">
+                Get Guidance
+                <span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'wght' 600">arrow_forward</span>
+</button>
+</div>
+</main>
+</body></html>

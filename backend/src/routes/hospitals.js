@@ -1,11 +1,21 @@
 import express from 'express';
 import hospitalsData from '../data/hospitals.js';
+import { getCache, setCache } from '../services/hospitalCache.js';
 
 const router = express.Router();
+const MAX_QUERY_LENGTH = 120;
 
 // Helper function to normalize department names for matching
 const normalizeDepartment = (dept) => {
   return dept.toLowerCase().trim();
+};
+
+const normalizeQueryValue = (value) => {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  return value.trim().slice(0, MAX_QUERY_LENGTH);
 };
 
 // Helper function to check if a hospital department matches the requested department
@@ -43,9 +53,21 @@ const departmentMatches = (hospitalDept, requestedDept) => {
   return false;
 };
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   try {
-    const { city, department } = req.query;
+    const city = normalizeQueryValue(req.query.city);
+    const department = normalizeQueryValue(req.query.department);
+    const cacheKey = { city, department };
+
+    const cachedHospitals = await getCache('hospitals', cacheKey);
+    if (cachedHospitals) {
+      return res.json({
+        hospitals: cachedHospitals,
+        filters: { city, department },
+        count: cachedHospitals.length,
+        cached: true,
+      });
+    }
 
     let filtered = [...hospitalsData];
 
@@ -79,10 +101,12 @@ router.get('/', (req, res) => {
       );
     }
 
-    res.json({ 
+    await setCache('hospitals', cacheKey, filtered, 300);
+    return res.json({ 
       hospitals: filtered,
       filters: { city, department },
-      count: filtered.length
+      count: filtered.length,
+      cached: false
     });
   } catch (error) {
     console.error('Error fetching hospitals:', error);

@@ -16,7 +16,9 @@ export default function SeverityBadge({ level }) {
   };
 
   return (
-    <span className={`inline-block px-4 py-2 rounded-full font-bold text-sm ${colorMap[level] || colorMap.medium}`}>
+    <span
+      className={`inline-block px-4 py-2 rounded-full font-bold text-sm ${colorMap[level] || colorMap.medium}`}
+    >
       {labelMap[level] || 'Unknown'}
     </span>
   );

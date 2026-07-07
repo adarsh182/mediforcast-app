@@ -1,0 +1,271 @@
+<!DOCTYPE html><html class="dark" lang="en"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "error": "#ffb4ab",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-tertiary-fixed-variant": "#7d2d00",
+                      "tertiary": "#ffb596",
+                      "on-error-container": "#ffdad6",
+                      "on-surface": "#e5e1e4",
+                      "muted": "#27272a",
+                      "surface-variant": "#353437",
+                      "on-surface-variant": "#c3c6d7",
+                      "severity-low": "#f59e0b",
+                      "surface-container": "#201f22",
+                      "inverse-primary": "#0053db",
+                      "secondary": "#c3c7cd",
+                      "on-secondary-container": "#b4b9bf",
+                      "on-background": "#e5e1e4",
+                      "surface-container-high": "#2a2a2c",
+                      "outline-variant": "#434655",
+                      "surface-container-highest": "#353437",
+                      "surface-dim": "#131315",
+                      "secondary-fixed": "#dfe3e9",
+                      "surface-tint": "#b4c5ff",
+                      "severity-high": "#ef4444",
+                      "on-primary-fixed": "#00174b",
+                      "surface": "#09090b",
+                      "inverse-on-surface": "#313032",
+                      "text-primary": "#fafafa",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-secondary-fixed": "#171c20",
+                      "primary": "#b4c5ff",
+                      "tertiary-container": "#bc4800",
+                      "on-secondary": "#2c3136",
+                      "surface-bright": "#39393b",
+                      "on-tertiary": "#581e00",
+                      "secondary-container": "#454a4f",
+                      "background": "#131315",
+                      "on-primary": "#002a78",
+                      "text-secondary": "#a1a1aa",
+                      "tertiary-fixed-dim": "#ffb596",
+                      "secondary-fixed-dim": "#c3c7cd",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "surface-container-lowest": "#0e0e10",
+                      "on-error": "#690005",
+                      "primary-fixed": "#dbe1ff",
+                      "error-container": "#93000a",
+                      "outline": "#8d90a0",
+                      "on-secondary-fixed-variant": "#43474c",
+                      "primary-container": "#2563eb",
+                      "inverse-surface": "#e5e1e4",
+                      "border": "#27272a",
+                      "on-primary-fixed-variant": "#003ea8",
+                      "surface-container-low": "#1c1b1d",
+                      "on-primary-container": "#eeefff",
+                      "on-tertiary-container": "#ffede6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem",
+                      "2xl": "1.5rem"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "unit": "4px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "container-max": "1280px"
+              },
+              "fontFamily": {
+                      "label-md": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "Segoe UI",
+                              "sans-serif"
+                      ],
+                      "display-lg": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "label-caps": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "body-lg": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "headline-lg-mobile": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "body-sm": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "headline-lg": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "body-md": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ],
+                      "headline-md": [
+                              "Inter",
+                              "-apple-system",
+                              "BlinkMacSystemFont",
+                              "sans-serif"
+                      ]
+              },
+              "fontSize": {
+                      "label-md": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-caps": [
+                              "13px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "letterSpacing": "0.02em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600",
+                                      "letterSpacing": "-0.01em"
+                              }
+                      ],
+                      "body-sm": [
+                              "15px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "36px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "fontWeight": "600",
+                                      "letterSpacing": "-0.01em"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      }catch(_e){}</script><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"></head><body class="bg-[#09090b] text-text-primary font-body-md antialiased min-h-screen flex flex-col selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-6 h-16 bg-[#09090b]/80 backdrop-blur-md w-full border-b border-white/5 transition-all">
+<div class="flex items-center gap-4"><div class="flex items-center gap-2">
+  <div class="w-8 h-8">
+    <img src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas" alt="SUMO Logo" class="w-full h-full object-contain">
+  </div>
+  <span class="font-headline-md text-headline-md font-bold text-white tracking-tight">SUMO</span>
+</div></div>
+<div class="flex items-center gap-4">
+<button aria-label="Toggle dark mode" class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 0;" data-original-icon="dark_mode">dark_mode</span>
+</button>
+<button aria-label="User profile" class="w-10 h-10 rounded-full flex items-center justify-center text-text-secondary hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: 'FILL' 1;" data-original-icon="account_circle">account_circle</span>
+</button>
+</div>
+</nav>
+
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-4xl mx-auto px-6 py-12 md:py-20 flex flex-col items-center">
+<!-- Medical Disclaimer Banner -->
+<div class="w-full mb-10 bg-severity-low/10 rounded-2xl p-5 flex items-start gap-4">
+<span class="material-symbols-outlined text-severity-low mt-0.5 text-[22px]" style="font-variation-settings: 'FILL' 1;">info</span>
+<div>
+<h2 class="font-label-md text-label-md text-severity-low font-semibold mb-1">Medical Disclaimer</h2>
+<p class="font-body-sm text-body-sm text-severity-low/80 leading-relaxed">Not a diagnostic tool. Consult a professional. This platform provides general guidance based on provided symptoms and should not replace professional medical advice, diagnosis, or treatment.</p>
+</div>
+</div>
+<!-- Center Focus Form Area -->
+<div class="w-full">
+<div class="mb-10 text-center md:text-left">
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-white mb-3 tracking-tight">Describe your symptoms</h1>
+<p class="font-body-md text-body-md text-text-secondary text-lg">Please be as detailed as possible to help us provide accurate guidance.</p>
+</div>
+<!-- Symptom Text Area -->
+<div class="mb-12 group">
+<label class="sr-only" for="symptoms">Describe your symptoms</label>
+<div class="relative rounded-[24px] bg-[#18181b] p-1 transition-all duration-300 focus-within:bg-primary-container/20 focus-within:shadow-[0_0_20px_rgba(37,99,235,0.15)]">
+<textarea class="w-full bg-transparent border-0 rounded-[20px] p-6 font-body-md text-body-md text-white placeholder:text-text-secondary/60 focus:ring-0 outline-none transition-all resize-none min-h-[160px]" id="symptoms" placeholder="E.g., I've had a persistent headache and mild fever for the last two days..." rows="5"></textarea>
+</div>
+</div>
+<!-- Grid of Selector Pills -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+<!-- Age Range -->
+<div>
+<h3 class="font-label-caps text-label-caps text-text-secondary mb-4">Age Range</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full bg-[#18181b] hover:bg-[#27272a] text-text-secondary hover:text-white font-body-sm text-body-sm transition-all duration-200">18-30</button>
+<button class="px-5 py-2.5 rounded-full bg-primary-container text-white font-body-sm text-body-sm transition-all duration-200 shadow-sm">31-50</button>
+<button class="px-5 py-2.5 rounded-full bg-[#18181b] hover:bg-[#27272a] text-text-secondary hover:text-white font-body-sm text-body-sm transition-all duration-200">51+</button>
+</div>
+</div>
+<!-- Gender -->
+<div class="">
+<h3 class="font-label-caps text-label-caps text-text-secondary mb-4">Gender</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full bg-[#18181b] hover:bg-[#27272a] text-text-secondary hover:text-white font-body-sm text-body-sm transition-all duration-200">Male</button>
+<button class="px-5 py-2.5 rounded-full bg-primary-container text-white font-body-sm text-body-sm transition-all duration-200 shadow-sm">Female</button>
+<button class="px-5 py-2.5 rounded-full bg-[#18181b] hover:bg-[#27272a] text-text-secondary hover:text-white font-body-sm text-body-sm transition-all duration-200">Other</button>
+</div>
+</div>
+<!-- City -->
+<div class="">
+<h3 class="font-label-caps text-label-caps text-text-secondary mb-4">City</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full bg-[#18181b] hover:bg-[#27272a] text-text-secondary hover:text-white font-body-sm text-body-sm transition-all duration-200">Mumbai</button>
+</div></div></div></div></main></body></html>

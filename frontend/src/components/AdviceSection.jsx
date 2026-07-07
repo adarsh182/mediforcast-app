@@ -11,18 +11,20 @@ export default function AdviceSection({ title, content, icon = '•' }) {
 
   return (
     <div className="mb-6">
-      <h3 className="text-lg font-semibold text-blue-400 mb-3">{icon} {title}</h3>
+      <h3 className="font-display text-xl font-semibold text-th-primary mb-3">
+        {icon} {title}
+      </h3>
       {Array.isArray(content) ? (
         <ul className="list-none space-y-2 ml-4">
           {content.map((item, idx) => (
-            <li key={idx} className={`${textSecondaryClass} text-sm`}>
-              <span className="text-blue-400 mr-2">→</span>
+            <li key={idx} className={`${textSecondaryClass} text-base`}>
+              <span className="text-th-primary mr-2 opacity-80">→</span>
               {item}
             </li>
           ))}
         </ul>
       ) : (
-        <p className={`${textSecondaryClass} text-sm leading-relaxed`}>{content}</p>
+        <p className={`${textSecondaryClass} text-base leading-relaxed`}>{content}</p>
       )}
     </div>
   );

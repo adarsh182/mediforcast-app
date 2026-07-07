@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Results &amp; Hospital Directory - SUMO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "outline-variant": "#3c4a46",
+                "on-background": "#dae2fd",
+                "surface-container-high": "#222a3d",
+                "background": "#0b1326",
+                "primary-fixed-dim": "#3cddc7",
+                "surface-container-highest": "#2d3449",
+                "surface-dim": "#0b1326",
+                "secondary": "#c0c1ff",
+                "on-tertiary-fixed": "#2d1600",
+                "tertiary-container": "#ffac5a",
+                "on-primary-container": "#00574d",
+                "surface-container-lowest": "#060e20",
+                "tertiary": "#ffd1aa",
+                "tertiary-fixed": "#ffdcc0",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "on-error": "#690005",
+                "on-tertiary": "#4b2800",
+                "surface-bright": "#31394d",
+                "secondary-container": "#3131c0",
+                "on-secondary-fixed": "#07006c",
+                "surface-tint": "#3cddc7",
+                "inverse-primary": "#006b5f",
+                "on-surface": "#dae2fd",
+                "on-secondary-container": "#b0b2ff",
+                "secondary-fixed": "#e1e0ff",
+                "error-container": "#93000a",
+                "on-primary-fixed-variant": "#005047",
+                "secondary-fixed-dim": "#c0c1ff",
+                "primary-container": "#2dd4bf",
+                "error": "#ffb4ab",
+                "on-secondary": "#1000a9",
+                "on-error-container": "#ffdad6",
+                "surface-variant": "#2d3449",
+                "tertiary-fixed-dim": "#ffb875",
+                "surface-container": "#171f33",
+                "inverse-surface": "#dae2fd",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "surface": "#0b1326",
+                "on-tertiary-container": "#744000",
+                "on-surface-variant": "#bacac5",
+                "primary-fixed": "#62fae3",
+                "primary": "#57f1db",
+                "inverse-on-surface": "#283044",
+                "on-primary-fixed": "#00201c",
+                "on-primary": "#003731",
+                "outline": "#859490",
+                "surface-container-low": "#131b2e",
+                "severity-high": "#ef4444"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "container-max": "1440px",
+                "unit": "4px",
+                "margin-desktop": "48px",
+                "margin-mobile": "16px",
+                "gutter": "24px"
+        },
+        "fontFamily": {
+                "headline-xl": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg-mobile": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+</head>
+<body class="bg-background text-on-background min-h-screen font-body-md flex flex-col md:flex-row">
+<!-- TopNavBar (Mobile Only) -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:hidden h-16 bg-surface border-b border-outline-variant w-full">
+<div class="font-headline-md text-headline-md font-bold text-primary">SUMO</div>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer active:scale-95 transition-transform hover:text-primary">dark_mode</span>
+</div>
+</header>
+<!-- SideNavBar (Desktop Only) -->
+<nav class="hidden md:flex flex-col fixed left-0 top-0 h-screen z-40 bg-surface-container docked left-0 h-full w-64 border-r border-outline-variant font-label-md text-label-md text-primary">
+<div class="p-6 border-b border-outline-variant">
+<div class="font-headline-md text-headline-md font-bold mb-2">SUMO</div>
+<div class="text-on-surface-variant font-label-md font-normal text-label-md">Patient Portal</div>
+<div class="text-on-surface-variant font-label-md mt-1">SUMO Health Systems</div>
+</div>
+<ul class="flex flex-col gap-2 p-4 mt-4">
+<li class="text-on-surface-variant hover:bg-surface-variant transition-all flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </li>
+<li class="bg-secondary-container text-on-secondary-container rounded-lg flex items-center gap-3 px-4 py-3 cursor-pointer transition-all border border-primary">
+<span class="material-symbols-outlined">medical_services</span>
+                Symptoms
+            </li>
+<li class="text-on-surface-variant hover:bg-surface-variant transition-all flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg">
+<span class="material-symbols-outlined">local_hospital</span>
+                Hospitals
+            </li>
+<li class="text-on-surface-variant hover:bg-surface-variant transition-all flex items-center gap-3 px-4 py-3 cursor-pointer rounded-lg mt-auto">
+<span class="material-symbols-outlined">settings</span>
+                Settings
+            </li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-8 md:py-12 md:ml-64 flex flex-col gap-8 md:gap-12">
+<!-- Header & Severity Badge -->
+<header class="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 border-b border-surface-variant pb-6">
+<div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-on-background mb-2">Symptom Assessment Results</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Based on your input, here is your preliminary assessment.</p>
+</div>
+<div class="inline-flex items-center gap-2 bg-severity-high/15 border border-severity-high/30 px-4 py-2 rounded-full">
+<span class="material-symbols-outlined text-severity-high" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-severity-high">Emergency</span>
+</div>
+</header>
+<!-- Summary & Action Plan -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="col-span-1 md:col-span-2 bg-surface-container border border-surface-variant rounded-xl p-6 flex flex-col gap-4">
+<h2 class="font-label-sm text-label-sm uppercase text-on-surface-variant">Urgency Advice</h2>
+<div class="font-body-lg text-body-lg text-on-background leading-relaxed">
+                    Based on reported symptoms (severe chest pain, shortness of breath), immediate medical attention is highly recommended. Please proceed to the nearest emergency room or call emergency services immediately.
+                </div>
+</div>
+<div class="col-span-1 bg-surface-container border border-surface-variant rounded-xl p-6 flex flex-col gap-4">
+<h2 class="font-label-sm text-label-sm uppercase text-on-surface-variant">Self-Care Tips While Waiting</h2>
+<ul class="flex flex-col gap-3 font-label-md font-normal text-label-md text-on-background">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                        Stay as calm and still as possible.
+                    </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                        Loosen any tight clothing.
+                    </li>
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-[18px]">check_circle</span>
+                        If prescribed, take recommended emergency medication (e.g., Aspirin).
+                    </li>
+</ul>
+</div>
+</section>
+<!-- Specialties -->
+<section class="flex flex-col gap-4">
+<h2 class="font-label-sm text-label-sm uppercase text-on-surface-variant px-2">Recommended Specialties</h2>
+<div class="flex overflow-x-auto pb-4 gap-3 hide-scrollbar px-2">
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-surface-variant bg-surface-container hover:bg-surface-variant transition-colors font-label-md font-normal text-label-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">favorite</span>
+                    Cardiology
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-surface-variant bg-surface-container hover:bg-surface-variant transition-colors font-label-md font-normal text-label-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">emergency</span>
+                    Emergency Medicine
+                </button>
+<button class="whitespace-nowrap px-4 py-2 rounded-full border border-surface-variant bg-surface-container hover:bg-surface-variant transition-colors font-label-md font-normal text-label-md text-on-background flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">stethoscope</span>
+                    General Physician
+                </button>
+</div>
+</section>
+<!-- Hospital Directory Grid -->
+<section class="flex flex-col gap-6">
+<h2 class="font-headline-md text-headline-md text-on-background border-b border-surface-variant pb-4">Nearby Emergency Facilities</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Hospital Card 1 -->
+<div class="bg-surface-container border border-surface-variant rounded-xl overflow-hidden flex flex-col hover:border-outline-variant transition-colors group">
+<div class="h-40 w-full relative">
+<div class="bg-cover bg-center w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" data-alt="A detailed map view showing the location of a hospital in a dense urban area. The map uses a sleek, modern dark mode color scheme with subtle neon blue highlights indicating roads and a prominent pulsing red marker denoting the emergency facility. The visual style is premium and data-centric." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBP_GYt1ltuOuj2MJbhyNA0WYCTN2Ig_VDEzJahIJ-GkDD3rb4I6kOXTyyFFvmMaVobG0Z4o8YGWYxk161RoZx2Scgs-TunmbriNXtUcNMDpG2BamULOysMCGTMdZENvZXG1nM1nDcIbuXe-_UwzXkp8gBh3a66EVeTcBdiStlD2_4KvkDlJ9H2zbsO_YV1-6PN0NFg410VIq51h07LVBaXR4xN7kCSEXwbSS3qkuxieF-0V_AktofzG4Lf-_cZs2Lo2Hu1_4GtJpM')"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div>
+<h3 class="font-body-lg text-body-lg text-on-background font-medium mb-1">Mercy General Hospital</h3>
+<p class="font-label-md font-normal text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                1.2 miles away
+                            </p>
+</div>
+<p class="font-label-md font-normal text-label-md text-on-surface-variant mt-auto">123 Health Ave, Medical District</p>
+<div class="flex gap-3 mt-4 pt-4 border-t border-surface-variant">
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">call</span>
+                                Call
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 border border-surface-variant bg-transparent text-on-background font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+                                Directions
+                            </button>
+</div>
+</div>
+</div>
+<!-- Hospital Card 2 -->
+<div class="bg-surface-container border border-surface-variant rounded-xl overflow-hidden flex flex-col hover:border-outline-variant transition-colors group">
+<div class="h-40 w-full relative">
+<div class="bg-cover bg-center w-full h-full opacity-60 group-hover:opacity-100 transition-opacity" data-alt="A detailed map view showing the location of a medical center in a suburban setting. The map utilizes a sleek, dark mode aesthetic with muted grey tones for blocks and a vivid red pin marking the hospital location. The lighting implies a night-time navigation mode, looking precise and reliable." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBJy6n11CQ6q7sTfeH6b2StBr3W4zm4el0YYu0T_nH-TMXK0BO6VVTdQGvu4Q_RRYq25NCAa2MAtB2jKdOFMGj6cCeTuuhNBOe6QtebIBYtTFCGqrEexaKmi61mp6ZCsm1L2whDm-EVmZxBaCXJi7nPmQ19hyvHhI2Vois6WRZBp-xoCjssudJiWEatmjeoMmPoB4aSHQIHTm5AUsNGiPiYkZuitzBEyApndTNTcUmK66ObZBecKgNjAjE4Afo9bESXPQhfsJywgyA')"></div>
+</div>
+<div class="p-6 flex flex-col gap-4 flex-1">
+<div>
+<h3 class="font-body-lg text-body-lg text-on-background font-medium mb-1">St. Jude Medical Center</h3>
+<p class="font-label-md font-normal text-label-md text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">location_on</span>
+                                3.5 miles away
+                            </p>
+</div>
+<p class="font-label-md font-normal text-label-md text-on-surface-variant mt-auto">456 Care Blvd, Westside</p>
+<div class="flex gap-3 mt-4 pt-4 border-t border-surface-variant">
+<button class="flex-1 flex items-center justify-center gap-2 bg-primary text-on-primary font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-[18px]" style="font-variation-settings: 'FILL' 1;">call</span>
+                                Call
+                            </button>
+<button class="flex-1 flex items-center justify-center gap-2 border border-surface-variant bg-transparent text-on-background font-label-md text-label-md py-2 px-4 rounded-lg hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined text-[18px]">directions</span>
+                                Directions
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<style>
+        /* Hide scrollbar for horizontal scrolling containers */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</body></html>

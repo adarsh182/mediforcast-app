@@ -36,9 +36,11 @@ npm install
 Create a `.env` file in the `backend` directory with:
 
 ```
-PORT=5000
+PORT=5001
 GEMINI_API_KEY=your_gemini_api_key_here
 GEMINI_API_URL=https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent
+CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+SUPABASE_JWT_SECRET=replace_with_your_supabase_jwt_secret
 ```
 
 **Important:** Replace `your_gemini_api_key_here` with your actual Gemini API key.
@@ -55,15 +57,30 @@ npm install
 
 ### 3. Update Frontend API URL (for local development)
 
-If you want to use the local backend instead of the production one, update `frontend/src/api/client.js`:
+If you want to use the local backend instead of the production one, set `VITE_API_BASE_URL` in `frontend/.env`:
 
-```javascript
-// Change this line:
-const API_BASE = 'https://mediforcast-app.onrender.com/api';
-
-// To this for local development:
-const API_BASE = 'http://localhost:5000/api';
 ```
+VITE_API_BASE_URL=http://localhost:5001/api
+```
+
+If you are using Supabase Google OAuth, add these values to `frontend/.env`:
+
+```
+VITE_SUPABASE_URL=https://your-project-id.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_publishable_key_here
+```
+
+In the Supabase dashboard, enable Google as an OAuth provider and add your local redirect URL, usually `http://localhost:5173/login`, to the allowed redirect list.
+
+### Vite-Compatible Supabase Setup
+
+The SUMO frontend is a Vite SPA, so the Supabase translation is browser-only:
+
+- Use `import.meta.env.VITE_SUPABASE_URL` and `import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY`
+- Create the browser client in `frontend/src/lib/supabaseClient.js`
+- Keep auth state in the React provider with `supabase.auth.getSession()` and `supabase.auth.onAuthStateChange()`
+- Use Google OAuth through `supabase.auth.signInWithOAuth({ provider: 'google' })`
+- Do not add Next.js files like `page.tsx`, `utils/supabase/server.ts`, or `middleware.ts`; they are not part of this Vite app
 
 ## Running the Application
 
@@ -74,7 +91,7 @@ const API_BASE = 'http://localhost:5000/api';
 cd backend
 npm run dev
 ```
-Backend will run on `http://localhost:5000`
+Backend will run on `http://localhost:5001`
 
 **Terminal 2 - Frontend:**
 ```bash
@@ -140,8 +157,34 @@ mediforcast/
 ## API Endpoints
 
 - `POST /api/symptoms/analyze` - Analyze symptoms
+- `GET /api/symptoms/previous?userId=` - Fetch stored history for a user
+- `DELETE /api/symptoms/previous/:id` - Delete one history entry
+- `DELETE /api/symptoms/previous?userId=` - Clear a user's history
 - `GET /api/hospitals?city=&department=` - Get hospitals
-- `GET /api/health` - Health check
+- `GET /api/health` - Health check, returns `{ status: "healthy", timestamp }`
+
+## Phase 1 Database Scaffold
+
+The repository now includes the production schema blueprint and a seed bridge for the current in-memory hospital data:
+
+- [backend/db/schema.sql](backend/db/schema.sql) defines the PostgreSQL tables from the production spec.
+- [backend/db/seeds/hospitals.seed.js](backend/db/seeds/hospitals.seed.js) adapts the existing hospital list into seedable relational rows.
+
+These files are the starting point for the database evolution path described in the docs. Symptom logs now persist through the backend store layer, and the hospital route includes cache support with an in-memory fallback when Redis is not configured.
+
+## Phase 2 Auth Verification
+
+The frontend owns Google OAuth through Supabase, and the backend now verifies Supabase access tokens on protected routes.
+
+- Protected symptom routes require `Authorization: Bearer <Supabase access token>`
+- The backend extracts the authenticated Supabase `user_id` from the verified JWT
+- Old custom signup/login backend routes have been removed
+
+## Phase 3 Persistence Layer
+
+- Symptom analysis results are now written through the backend store layer instead of browser localStorage.
+- History reads, deletes, and clears now go through `/api/symptoms/previous`.
+- Hospital lookups are cached server-side with Redis when available, with a safe in-memory fallback for local development.
 
 ## Troubleshooting
 
@@ -167,10 +210,14 @@ mediforcast/
 - Always consult a qualified healthcare professional
 - In emergencies, call emergency services immediately
 
+Auth is now handled through Supabase Google OAuth instead of the previous custom email/password flow.
+
+Protected backend routes now trust Supabase JWTs rather than client-supplied user IDs.
+
 ## Tech Stack
 
 - **Frontend:** React, Vite, Tailwind CSS, React Router
 - **Backend:** Node.js, Express
 - **AI:** Google Gemini API
-- **Storage:** localStorage (client-side only)
+- **Storage:** Supabase auth session on the frontend, backend symptom log persistence with PostgreSQL-ready storage, and cached hospital queries
 

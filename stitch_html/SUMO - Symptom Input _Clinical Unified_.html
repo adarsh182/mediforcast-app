@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Symptom Input Dashboard - SUMO</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "on-tertiary": "#51230e",
+                      "inverse-on-surface": "#303032",
+                      "surface-container": "#201f22",
+                      "surface-container-lowest": "#0e0e10",
+                      "surface-container-highest": "#353437",
+                      "secondary-fixed": "#dfe3e9",
+                      "surface-variant": "#353437",
+                      "inverse-surface": "#e5e1e4",
+                      "on-primary-fixed-variant": "#334576",
+                      "tertiary-container": "#ffb697",
+                      "primary-fixed": "#dbe1ff",
+                      "on-tertiary-fixed": "#360f00",
+                      "on-secondary-fixed-variant": "#43474c",
+                      "on-primary": "#002a78",
+                      "on-surface-variant": "#c5c6d0",
+                      "on-tertiary-container": "#7a452d",
+                      "text-primary": "#fafafa",
+                      "on-error-container": "#ffdad6",
+                      "secondary-container": "#454a4f",
+                      "primary": "#dbe2ff",
+                      "border-muted": "#27272a",
+                      "text-secondary": "#a1a1aa",
+                      "on-surface": "#e5e1e4",
+                      "severity-low": "#f59e0b",
+                      "on-secondary-container": "#b5b9bf",
+                      "tertiary-fixed-dim": "#ffb597",
+                      "severity-high": "#ef4444",
+                      "surface-container-low": "#1b1b1d",
+                      "surface-bright": "#39393b",
+                      "on-tertiary-fixed-variant": "#6c3922",
+                      "on-primary-fixed": "#021848",
+                      "on-primary-container": "#405183",
+                      "primary-container": "#b4c5ff",
+                      "secondary-fixed-dim": "#c3c7cd",
+                      "on-secondary-fixed": "#171c20",
+                      "on-secondary": "#2c3136",
+                      "on-error": "#690005",
+                      "background": "#131315",
+                      "error-container": "#93000a",
+                      "secondary": "#c3c7cd",
+                      "surface-container-high": "#2a2a2c",
+                      "outline-variant": "#45464f",
+                      "primary-fixed-dim": "#b4c5ff",
+                      "error": "#ffb4ab",
+                      "surface-tint": "#b4c5ff",
+                      "tertiary": "#ffdbce",
+                      "tertiary-fixed": "#ffdbcd",
+                      "on-background": "#e5e1e4",
+                      "surface": "#131315",
+                      "surface-dim": "#131315",
+                      "inverse-primary": "#4c5c90",
+                      "outline": "#8f909a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "margin-desktop": "40px",
+                      "unit": "4px",
+                      "container-max": "1000px",
+                      "gutter": "24px",
+                      "margin-mobile": "16px",
+                      "safe": "env(safe-area-inset-bottom, 16px)"
+              },
+              "fontFamily": {
+                      "label-caps": [
+                              "JetBrains Mono"
+                      ],
+                      "headline-md": [
+                              "Manrope"
+                      ],
+                      "headline-lg": [
+                              "Manrope"
+                      ],
+                      "label-md": [
+                              "Manrope"
+                      ],
+                      "display-lg": [
+                              "Manrope"
+                      ],
+                      "headline-lg-mobile": [
+                              "Manrope"
+                      ],
+                      "body-lg": [
+                              "Manrope"
+                      ],
+                      "body-sm": [
+                              "Manrope"
+                      ],
+                      "body-md": [
+                              "Manrope"
+                      ],
+                      "headline-xl": [
+                              "Manrope"
+                      ],
+                      "label-sm": [
+                              "Manrope"
+                      ]
+              },
+              "fontSize": {
+                      "label-caps": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.4",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "1.0",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "1.2",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "24px",
+                              {
+                                      "lineHeight": "1.3",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "1.5",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "1.6",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-xl": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "label-sm": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "500"
+                              }
+                      ]
+              }
+            }
+          }
+        }
+      </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background text-text-primary font-body-md antialiased min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-[72px] bg-surface/80 backdrop-blur-md dark:bg-surface/80 w-full border-b border-outline-variant">
+<div class="flex items-center gap-3">
+<img alt="SUMO Logo" class="h-8 w-8 object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas"/>
+<span class="font-headline-md text-headline-md font-bold text-primary dark:text-primary-fixed tracking-tight">SUMO</span>
+</div>
+<div class="hidden md:flex gap-6 items-center h-full">
+<!-- Navigation items intentionally omitted based on semantic shell logic (symptom input is transactional/focused) -->
+</div>
+<div class="flex items-center gap-4">
+<button aria-label="Toggle dark mode" class="h-10 w-10 flex items-center justify-center rounded-full bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-primary transition-colors cursor-pointer active:scale-95 transition-transform border border-border-muted">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dark_mode</span>
+</button>
+</div>
+</nav>
+<!-- SideNavBar Logic: Suppressed because Symptom Input is a linear/transactional flow -->
+<!-- Main Content Canvas -->
+<main class="flex-1 w-full max-w-container-max mx-auto px-margin-mobile md:px-gutter py-8 md:py-16 flex flex-col items-center justify-center">
+<!-- Medical Disclaimer Banner -->
+<div class="w-full max-w-3xl mb-10 bg-error-container border-2 border-severity-high rounded-xl p-4 flex items-start gap-4 shadow-lg relative overflow-hidden">
+<span class="material-symbols-outlined text-error shrink-0" data-icon="warning" style="font-variation-settings: 'FILL' 1; font-size: 28px;">warning</span>
+<div class="relative z-10 pt-1">
+<p class="font-label-caps text-label-caps text-error font-bold mb-1">CRITICAL MEDICAL DISCLAIMER</p>
+<p class="font-body-sm text-body-sm text-on-error-container">Not a diagnostic tool. Consult a professional. This platform provides general guidance based on provided symptoms and should not replace professional medical advice, diagnosis, or treatment.</p>
+</div>
+</div>
+<!-- Center Focus Elevated Card -->
+<div class="w-full max-w-3xl">
+<div class="mb-8">
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg mb-3">Describe your symptoms</h1>
+<p class="font-body-lg text-body-lg text-text-secondary">Please be as detailed as possible to help us provide accurate guidance.</p>
+</div>
+<!-- Symptom Text Area -->
+<div class="mb-10 relative group">
+<label class="sr-only" for="symptoms">Describe your symptoms</label>
+<div class="absolute -inset-0.5 bg-primary/20 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-300"></div>
+<textarea class="relative w-full h-48 bg-surface-container border border-border-muted rounded-2xl p-6 font-body-lg text-[16px] text-text-primary placeholder:text-text-secondary focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none shadow-inner" id="symptoms" placeholder="E.g., I've had a persistent headache and mild fever for the last two days..." rows="5"></textarea>
+<button class="absolute bottom-4 right-4 bg-surface-variant hover:bg-surface-highest text-primary p-3 rounded-full shadow-lg transition-colors border border-border-muted z-10">
+<span class="material-symbols-outlined" data-icon="mic">mic</span>
+</button>
+</div>
+<!-- Grid of Selector Pills -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+<!-- Age Range -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 pl-1">AGE RANGE</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">18-30</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-sm text-[15px] font-medium transition-colors ring-1 ring-primary/30">31-50</button>
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">51+</button>
+</div>
+</div>
+<!-- Gender -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 pl-1">GENDER</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">Male</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-sm text-[15px] font-medium transition-colors ring-1 ring-primary/30">Female</button>
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">Other</button>
+</div>
+</div>
+<!-- City -->
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-4 pl-1">CITY</h3>
+<div class="flex flex-wrap gap-2.5">
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">Mumbai</button>
+<button class="px-5 py-2.5 rounded-full border border-border-muted bg-surface-container hover:bg-surface-variant text-text-primary font-body-sm text-[15px] font-medium transition-colors">Pune</button>
+<button class="px-5 py-2.5 rounded-full border border-primary bg-primary/10 text-primary font-body-sm text-[15px] font-medium transition-colors ring-1 ring-primary/30">Delhi</button>
+</div>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full bg-primary hover:bg-primary-fixed text-on-primary font-headline-md text-headline-md py-4 rounded-full shadow-[0_0_15px_rgba(219,226,255,0.15)] transition-all flex justify-center items-center gap-3 active:scale-[0.98] min-h-[56px]">
+                Get Guidance
+                <img alt="Arrow" class="h-5 w-5 ml-2" src="https://lh3.googleusercontent.com/aida/AP1WRLuLeHZgGwUqGO22WgBJ_t52hL4LwsNgPPvNYLXqlCJdckhr2lOpsudE5tJK-5CGNm_qezPhBdiqiEffIojl7sUUzPEuMQaNQNylHEfxJRsoKcu-7zSzvUNiFSGvB2zj5Civ8OV7gM0MdroBhNLIZdD7-0X4Swc1gGapEB6eRNIlwpPbHy-YAQ-nkx258htFcH0KjPRYjkabEg_-Q9erz6T6l2hhvO24ZJju78rLMzoLpmMam1HDjh6Ggag"/>
+</button>
+</div>
+</main>
+</body></html>

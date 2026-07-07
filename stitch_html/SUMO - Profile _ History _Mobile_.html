@@ -1,0 +1,236 @@
+<!DOCTYPE html><html class="dark" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>SUMO Clinical - Profile &amp; History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=JetBrains+Mono:wght@500&amp;family=Manrope:wght@600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#51230e",
+                        "inverse-on-surface": "#303032",
+                        "surface-container": "#1f1f21",
+                        "surface-container-lowest": "#0e0e10",
+                        "surface-container-highest": "#353437",
+                        "secondary-fixed": "#dfe3e9",
+                        "surface-variant": "#353437",
+                        "inverse-surface": "#e5e1e4",
+                        "on-primary-fixed-variant": "#334576",
+                        "tertiary-container": "#ffb697",
+                        "primary-fixed": "#dbe1ff",
+                        "on-tertiary-fixed": "#360f00",
+                        "on-secondary-fixed-variant": "#43474c",
+                        "on-primary": "#002a78",
+                        "on-surface-variant": "#c5c6d0",
+                        "on-tertiary-container": "#7a452d",
+                        "text-primary": "#fafafa",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#454a4f",
+                        "primary": "#dbe2ff",
+                        "border-muted": "#27272a",
+                        "text-secondary": "#a1a1aa",
+                        "on-surface": "#e5e1e4",
+                        "severity-low": "#f59e0b",
+                        "on-secondary-container": "#b5b9bf",
+                        "tertiary-fixed-dim": "#ffb597",
+                        "severity-high": "#ef4444",
+                        "surface-container-low": "#1b1b1d",
+                        "surface-bright": "#39393b",
+                        "on-tertiary-fixed-variant": "#6c3922",
+                        "on-primary-fixed": "#021848",
+                        "on-primary-container": "#405183",
+                        "primary-container": "#b4c5ff",
+                        "secondary-fixed-dim": "#c3c7cd",
+                        "on-secondary-fixed": "#171c20",
+                        "on-secondary": "#2c3136",
+                        "on-error": "#690005",
+                        "background": "#131315",
+                        "error-container": "#93000a",
+                        "secondary": "#c3c7cd",
+                        "surface-container-high": "#2a2a2c",
+                        "outline-variant": "#45464f",
+                        "primary-fixed-dim": "#b4c5ff",
+                        "error": "#ffb4ab",
+                        "surface-tint": "#b4c5ff",
+                        "tertiary": "#ffdbce",
+                        "tertiary-fixed": "#ffdbcd",
+                        "on-background": "#e5e1e4",
+                        "surface": "#131315",
+                        "surface-dim": "#131315",
+                        "inverse-primary": "#4c5c90",
+                        "outline": "#8f909a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-desktop": "40px",
+                        "unit": "4px",
+                        "container-max": "1000px",
+                        "gutter": "24px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-md": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "display-lg": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }]
+                    }
+                },
+            }
+        }
+    </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top Navigation Anchor (Mobile Only) -->
+<header class="fixed top-0 w-full h-[64px] z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-mobile md:hidden">
+<div class="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+  <div class="w-8 h-8 flex items-center justify-center">
+    <img src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas" alt="SUMO Logo" class="w-full h-full object-contain">
+  </div>
+  <span class="">SUMO</span>
+</div>
+<div class="flex gap-4">
+<button aria-label="Dark Mode" class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button aria-label="Account" class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[80px] px-margin-mobile mx-auto max-w-[600px] flex flex-col gap-[32px]">
+<!-- Profile Section -->
+<section class="flex flex-col items-center pt-[16px]">
+<div class="w-[88px] h-[88px] rounded-full overflow-hidden mb-[16px] border-2 border-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a person looking forward with a calm and reassuring expression. The lighting is studio-quality, softly highlighting the face against a dark, minimalist background. The color palette aligns with a modern medical context, utilizing deep blacks, subtle grays, and soft skin tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARWBy0BglUpNQvsRkzgNP1w3h-wKWPSXiXl18m8qnKXTD4jqmtYP6NcvNzAIhzIEKbb7FIwSviPiLQk8ZwaNAsYNQmtYo4KnAPj2ZoIk9YcOVuuM3Yy3eStjF8WuGohkECUs3NfZNdcGS4US8t0lxedsJL0EKEzED3t7_Of4pe8WUXxLl-yMRLVJ_Uy4sgGCqCBAblAsMhiHXXfQOcBCOytGZ_qHk12nSxIv-MFByyUYrTEuL6H4U01sur-wi7rcQnDbyzl41UT2E">
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-text-primary mb-[4px]">Sarah Jenkins</h1>
+<p class="font-body-md text-body-md text-text-secondary">sarah.jenkins@example.com</p>
+<button class="mt-[16px] px-[24px] py-[8px] rounded-full border border-outline-variant text-primary font-body-sm text-body-sm hover:bg-surface-variant transition-colors">Edit Profile</button>
+</section>
+<!-- Family Members Bento Grid -->
+<section>
+<div class="flex justify-between items-end mb-[16px]">
+<h2 class="font-headline-md text-headline-md text-text-primary">Family Members</h2>
+<button class="text-primary font-label-md text-label-md hover:text-primary-container transition-colors flex items-center gap-[4px]">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+                    Add
+                </button>
+</div>
+<div class="grid grid-cols-2 gap-[12px]">
+<!-- Member Card -->
+<div class="bg-surface-container p-[16px] rounded-2xl hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-[40px] h-[40px] rounded-full bg-surface-container-highest flex items-center justify-center mb-[12px] group-hover:bg-primary-container transition-colors text-on-surface group-hover:text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="face">face</span>
+</div>
+<div class="font-body-md text-body-md text-text-primary">Michael</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Son, 8 yrs</div>
+</div>
+<!-- Member Card -->
+<div class="bg-surface-container p-[16px] rounded-2xl hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-[40px] h-[40px] rounded-full bg-surface-container-highest flex items-center justify-center mb-[12px] group-hover:bg-primary-container transition-colors text-on-surface group-hover:text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="elderly">elderly</span>
+</div>
+<div class="font-body-md text-body-md text-text-primary">Robert</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Father, 72 yrs</div>
+</div>
+</div>
+</section>
+<!-- Recent History Section -->
+<section>
+<h2 class="font-headline-md text-headline-md text-text-primary mb-[16px]">Recent History</h2>
+<div class="flex flex-col gap-[12px]">
+<!-- History Item 1 (High Severity) -->
+<div class="bg-surface-container p-[16px] rounded-2xl flex flex-col gap-[12px] hover:bg-surface-variant transition-colors border-l-[4px] border-severity-high shadow-[0_0_15px_rgba(239,68,68,0.05)]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-[12px]">
+<div class="w-[32px] h-[32px] rounded-full bg-error-container/20 flex items-center justify-center text-severity-high">
+<span class="material-symbols-outlined" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-text-primary font-medium">Chest Pain Assessment</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Self • Today, 09:42 AM</div>
+</div>
+</div>
+<div class="bg-severity-high/15 border border-severity-high/30 px-[8px] py-[4px] rounded font-label-caps text-label-caps text-severity-high">URGENT</div>
+</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant bg-surface-container-low p-[12px] rounded-lg">
+                        Recommended immediate visit to Emergency Department. Directions provided to nearest facility.
+                    </div>
+</div>
+<!-- History Item 2 (Low Severity) -->
+<div class="bg-surface-container p-[16px] rounded-2xl flex flex-col gap-[12px] hover:bg-surface-variant transition-colors border-l-[4px] border-severity-low">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-[12px]">
+<div class="w-[32px] h-[32px] rounded-full bg-severity-low/10 flex items-center justify-center text-severity-low">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-text-primary font-medium">Fever Assessment</div>
+<div class="font-body-sm text-body-sm text-text-secondary">Michael • Yesterday, 08:15 PM</div>
+</div>
+</div>
+<div class="bg-severity-low/15 border border-severity-low/30 px-[8px] py-[4px] rounded font-label-caps text-label-caps text-severity-low">MONITOR</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-[16px] py-[12px] rounded-full border border-outline-variant text-on-surface font-body-md text-body-md hover:bg-surface-variant transition-colors text-center">
+                View Full History
+            </button>
+</section>
+</main>
+<!-- Bottom Nav Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container rounded-t-xl shadow-sm md:hidden">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="medical_services">medical_services</span>
+<span class="font-label-md text-label-md">Assess</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="history">history</span>
+<span class="font-label-md text-label-md">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="local_hospital">local_hospital</span>
+<span class="font-label-md text-label-md">Facilities</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 hover:bg-surface-variant transition-all group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="person">person</span>
+<span class="font-label-md text-label-md">Profile</span>
+</a>
+</nav>
+
+
+</body></html>

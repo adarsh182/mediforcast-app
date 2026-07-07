@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { analyzeSymptoms } from '../api/client';
-import LoadingSpinner from './LoadingSpinner';
-import { useTheme } from '../contexts/ThemeContext';
 import { useUser } from '../contexts/UserContext';
 import UserManager from './UserManager';
+import toast from 'react-hot-toast';
+import { Button } from './ui/Button';
+import { Input } from './ui/Input';
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+} from './ui/Card';
+import { cn } from '../lib/utils';
 
 const CHRONIC_CONDITIONS = [
   'Diabetes',
@@ -17,14 +25,34 @@ const CHRONIC_CONDITIONS = [
   'Liver Disease',
 ];
 
+const getCoordinates = () => {
+  return new Promise((resolve) => {
+    if (!navigator.geolocation) {
+      resolve({ lat: null, lng: null });
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        });
+      },
+      (error) => {
+        console.warn('Geolocation error:', error);
+        resolve({ lat: null, lng: null });
+      },
+      { timeout: 5000 }
+    );
+  });
+};
+
 export default function SymptomForm() {
   const navigate = useNavigate();
-  const { theme } = useTheme();
   const { users, currentUserId } = useUser();
   const [selectedUserId, setSelectedUserId] = useState(currentUserId);
   const [showUserManager, setShowUserManager] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [formData, setFormData] = useState({
     text: '',
     ageRange: '',
@@ -33,26 +61,20 @@ export default function SymptomForm() {
     chronicConditions: [],
   });
 
-  // Update selected user when current user changes or users list changes
+  // Ensure current user is selected by default
   useEffect(() => {
-    setSelectedUserId(currentUserId);
-  }, [currentUserId, users]);
+    if (currentUserId && !selectedUserId) {
+      setSelectedUserId(currentUserId);
+    }
+  }, [currentUserId, selectedUserId]);
 
-  // Get all users including default - this will update automatically when users change
   const allUsers = [
     { id: 'default', name: 'Default User' },
-    ...users.filter(u => u.id !== 'default'),
+    ...users.filter((u) => u.id !== 'default'),
   ];
-
-  const bgClass = theme === 'dark' ? 'bg-gray-900 border-gray-700' : 'bg-white border-gray-200';
-  const inputBgClass = theme === 'dark' ? 'bg-gray-800 border-gray-600 text-white' : 'bg-gray-50 border-gray-300 text-gray-900';
-  const labelClass = theme === 'dark' ? 'text-gray-300' : 'text-gray-700';
-  const textMutedClass = theme === 'dark' ? 'text-gray-500' : 'text-gray-500';
-  const buttonInactiveClass = theme === 'dark' ? 'bg-gray-700 text-gray-300 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300';
 
   const handleTextChange = (e) => {
     setFormData({ ...formData, text: e.target.value });
-    setError('');
   };
 
   const handleSelectChange = (e) => {
@@ -71,12 +93,13 @@ export default function SymptomForm() {
     e.preventDefault();
 
     if (!formData.text.trim()) {
-      setError('Please describe your symptoms.');
+      toast.error('Please describe your symptoms.');
       return;
     }
 
     setLoading(true);
-    setError('');
+
+    const { lat, lng } = await getCoordinates();
 
     try {
       const response = await analyzeSymptoms({
@@ -84,183 +107,193 @@ export default function SymptomForm() {
         ageRange: formData.ageRange || undefined,
         gender: formData.gender || undefined,
         city: formData.city || undefined,
-        chronicConditions: formData.chronicConditions.length > 0 ? formData.chronicConditions : undefined,
+        chronicConditions:
+          formData.chronicConditions.length > 0 ? formData.chronicConditions : undefined,
+        lat,
+        lng,
       });
 
-      // Save to localStorage with full result data (per selected user)
-      const historyKey = `sumo_history_${selectedUserId}`;
-      const history = JSON.parse(localStorage.getItem(historyKey) || '[]');
-      history.unshift({
-        id: Date.now(),
-        timestamp: new Date().toISOString(),
-        symptoms: formData.text,
-        city: formData.city,
-        formData: {
-          ageRange: formData.ageRange,
-          gender: formData.gender,
-          chronicConditions: formData.chronicConditions,
-        },
-        result: response.data.result,
-      });
-      // Keep only last 50 entries per user
-      localStorage.setItem(historyKey, JSON.stringify(history.slice(0, 50)));
+      const result = response.data.result;
+      const clinics = response.data.nearby_clinics || [];
 
-      // Navigate to result
-      navigate('/result', {
-        state: {
-          result: response.data.result,
-          city: formData.city,
-        },
-      });
+      toast.success('Symptoms analyzed successfully!');
+      navigate('/result', { state: { result, city: formData.city, nearbyClinics: clinics } });
     } catch (err) {
       console.error('Error:', err);
-      setError(
-        err.response?.data?.error ||
-        'Failed to analyze symptoms. Please try again.'
-      );
+      toast.error(err.response?.data?.error || 'Failed to analyze symptoms. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const outlineLinkClassName = cn(
+    'inline-flex items-center justify-center gap-2 rounded-full py-2 px-5 font-medium font-body-md text-sm',
+    'bg-transparent border border-outline-variant hover:bg-surface-variant/20 text-on-surface hover:text-primary',
+    'transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background'
+  );
+
   return (
-    <form onSubmit={handleSubmit} className={`${bgClass} rounded-lg p-6 shadow-lg border`}>
-      {error && (
-        <div className="mb-4 p-3 bg-red-900 border border-red-700 rounded text-red-200 text-sm">
-          {error}
-        </div>
-      )}
+    <>
+    <Card className="w-full max-w-2xl mx-auto mt-8 glass-thick rounded-[32px]">
+      <CardHeader className="border-b border-th-border/30 pb-4 mb-6">
+        <CardTitle className="font-display text-2xl font-bold bg-gradient-to-r from-blue-600 to-th-primary bg-clip-text text-transparent">Symptom Assessment</CardTitle>
+      </CardHeader>
 
-      {/* User Selector */}
-      <div className="mb-6">
-        <div className="flex items-center justify-between mb-2">
-          <label className={`block text-sm font-semibold ${labelClass}`}>
-            Select User <span className="text-red-400">*</span>
-          </label>
-          <button
-            type="button"
-            onClick={() => setShowUserManager(true)}
-            className="text-sm text-blue-400 hover:text-blue-300 font-medium flex items-center gap-1"
-          >
-            <span>+</span> Add User
-          </button>
-        </div>
-        <select
-          value={selectedUserId}
-          onChange={(e) => setSelectedUserId(e.target.value)}
-          className={`w-full p-3 ${inputBgClass} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          required
-        >
-          {allUsers.map((user) => (
-            <option key={user.id} value={user.id}>
-              {user.name}
-            </option>
-          ))}
-        </select>
-        <p className={`text-xs ${textMutedClass} mt-1`}>
-          Select which user these symptoms are for
-        </p>
-      </div>
-
-      {/* User Manager Modal */}
-      {showUserManager && (
-        <UserManager
-          onClose={() => setShowUserManager(false)}
-        />
-      )}
-
-      <div className="mb-6">
-        <label className={`block text-sm font-semibold mb-2 ${labelClass}`}>
-          Describe your symptoms <span className="text-red-400">*</span>
-        </label>
-        <textarea
-          value={formData.text}
-          onChange={handleTextChange}
-          placeholder="E.g., I have a persistent cough for 3 days, mild fever, and a sore throat..."
-          className={`w-full h-32 p-3 ${inputBgClass} rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500`}
-        />
-        <p className={`text-xs ${textMutedClass} mt-1`}>
-          Be as descriptive as possible. Duration, severity, and associated symptoms help.
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <div>
-          <label className={`block text-sm font-semibold mb-2 ${labelClass}`}>Age Range</label>
-          <select
-            name="ageRange"
-            value={formData.ageRange}
-            onChange={handleSelectChange}
-            className={`w-full p-2 ${inputBgClass} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          >
-            <option value="">Select...</option>
-            <option value="<12">Below 12</option>
-            <option value="12-18">12-18</option>
-            <option value="18-40">18-40</option>
-            <option value="40-60">40-60</option>
-            <option value=">60">Above 60</option>
-          </select>
-        </div>
-
-        <div>
-          <label className={`block text-sm font-semibold mb-2 ${labelClass}`}>Gender</label>
-          <select
-            name="gender"
-            value={formData.gender}
-            onChange={handleSelectChange}
-            className={`w-full p-2 ${inputBgClass} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          >
-            <option value="">Prefer not to say</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label className={`block text-sm font-semibold mb-2 ${labelClass}`}>City</label>
-          <select
-            name="city"
-            value={formData.city}
-            onChange={handleSelectChange}
-            className={`w-full p-2 ${inputBgClass} rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          >
-            <option value="Mumbai">Mumbai</option>
-            <option value="Pune">Pune</option>
-            <option value="Delhi">Delhi</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="mb-6">
-        <label className={`block text-sm font-semibold mb-3 ${labelClass}`}>Chronic Conditions (if any)</label>
-        <div className="flex flex-wrap gap-2">
-          {CHRONIC_CONDITIONS.map((condition) => (
-            <button
-              key={condition}
-              type="button"
-              onClick={() => handleConditionToggle(condition)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${
-                formData.chronicConditions.includes(condition)
-                  ? 'bg-blue-600 text-white'
-                  : buttonInactiveClass
-              }`}
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* User Selector */}
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <label className="text-sm font-semibold text-th-text-secondary block">
+                Select User <span className="text-th-error">*</span>
+              </label>
+              <button
+                type="button"
+                onClick={() => setShowUserManager(true)}
+                className="text-sm text-th-primary hover:text-blue-700 font-medium flex items-center gap-1 bg-transparent border-none cursor-pointer transition-colors"
+              >
+                <span className="material-symbols-outlined text-sm">add</span> Add User
+              </button>
+            </div>
+            <Input
+              type="select"
+              value={selectedUserId}
+              onChange={(e) => setSelectedUserId(e.target.value)}
+              required
             >
-              {condition}
-            </button>
-          ))}
-        </div>
-      </div>
+              {allUsers.map((user) => (
+                <option key={user.id} value={user.id} className="bg-surface-container-highest">
+                  {user.name}
+                </option>
+              ))}
+            </Input>
+            <p className="text-xs text-on-surface-variant mt-1.5 opacity-70">
+              Select which user these symptoms are for
+            </p>
+          </div>
 
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-600 text-white font-bold py-3 rounded-lg transition-colors"
-      >
-        {loading ? 'Analyzing...' : 'Get Guidance'}
-      </button>
+          {/* User Manager Modal */}
+          {showUserManager && <UserManager onClose={() => setShowUserManager(false)} />}
 
-      {loading && <LoadingSpinner />}
-    </form>
+          {/* Symptoms Description */}
+          <Input
+            label="Describe your symptoms *"
+            type="textarea"
+            value={formData.text}
+            onChange={handleTextChange}
+            placeholder="E.g., I have had a sharp pain in my lower right abdomen since yesterday evening, accompanied by nausea..."
+            inputClassName="h-32"
+            required
+          />
+
+          {/* Demographics Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Input
+              label="Age Range"
+              type="select"
+              name="ageRange"
+              value={formData.ageRange}
+              onChange={handleSelectChange}
+            >
+              <option value="" className="bg-surface-container-highest">
+                Select...
+              </option>
+              <option value="<12" className="bg-surface-container-highest">
+                Below 12
+              </option>
+              <option value="12-18" className="bg-surface-container-highest">
+                12-18
+              </option>
+              <option value="18-40" className="bg-surface-container-highest">
+                18-40
+              </option>
+              <option value="40-60" className="bg-surface-container-highest">
+                40-60
+              </option>
+              <option value=">60" className="bg-surface-container-highest">
+                Above 60
+              </option>
+            </Input>
+
+            <Input
+              label="Gender"
+              type="select"
+              name="gender"
+              value={formData.gender}
+              onChange={handleSelectChange}
+            >
+              <option value="" className="bg-surface-container-highest">
+                Prefer not to say
+              </option>
+              <option value="male" className="bg-surface-container-highest">
+                Male
+              </option>
+              <option value="female" className="bg-surface-container-highest">
+                Female
+              </option>
+              <option value="other" className="bg-surface-container-highest">
+                Other
+              </option>
+            </Input>
+
+            <Input
+              label="City"
+              type="select"
+              name="city"
+              value={formData.city}
+              onChange={handleSelectChange}
+              className="md:col-span-2"
+            >
+              <option value="Mumbai" className="bg-surface-container-highest">
+                Mumbai
+              </option>
+              <option value="Pune" className="bg-surface-container-highest">
+                Pune
+              </option>
+              <option value="Delhi" className="bg-surface-container-highest">
+                Delhi
+              </option>
+            </Input>
+          </div>
+
+          {/* Chronic Conditions */}
+          <div>
+            <label className="text-sm font-semibold text-th-text-secondary block mb-3">
+              Chronic Conditions (if any)
+            </label>
+            <div className="flex flex-wrap gap-2">
+              {CHRONIC_CONDITIONS.map((condition) => {
+                const isSelected = formData.chronicConditions.includes(condition);
+                return (
+                  <Button
+                    key={condition}
+                    type="button"
+                    onClick={() => handleConditionToggle(condition)}
+                    variant={isSelected ? 'default' : 'outline'}
+                    className="py-1.5 px-4 text-xs font-semibold rounded-full"
+                  >
+                    {condition}
+                  </Button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Submit */}
+          <div className="pt-4">
+            <Button
+              type="submit"
+              loading={loading}
+              className={`w-full flex items-center justify-center gap-2 text-lg font-bold ${loading ? 'animate-pulse' : ''}`}
+            >
+              <span>{loading ? 'Analyzing Symptoms...' : 'Get Guidance'}</span>
+              {!loading && <span className="material-symbols-outlined text-lg">arrow_forward</span>}
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+
+    </>
   );
 }

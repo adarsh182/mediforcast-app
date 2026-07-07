@@ -3,51 +3,74 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useTheme } from '../contexts/ThemeContext';
 import { useUser } from '../contexts/UserContext';
 import SeverityBadge from '../components/SeverityBadge';
+import { getPreviousChecks, deleteHistoryItem, clearHistory } from '../api/client';
+import toast from 'react-hot-toast';
+import AnimatedPage from "../components/AnimatedPage";
+import Skeleton from '../components/Skeleton';
 
 export default function History() {
   const navigate = useNavigate();
   const location = useLocation();
   const { theme } = useTheme();
-  const { users, switchUser } = useUser();
-  
+  const { users, switchUser: _switchUser } = useUser();
+
   // Get userId from navigation state or use current user
   const viewUserId = location.state?.userId;
   const [viewingUser, setViewingUser] = useState(null);
   const [history, setHistory] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     // Find the user being viewed
     const allUsers = [
       { id: 'default', name: 'Default User' },
-      ...users.filter(u => u.id !== 'default'),
+      ...users.filter((u) => u.id !== 'default'),
     ];
-    const user = allUsers.find(u => u.id === (viewUserId || 'default'));
+    const user = allUsers.find((u) => u.id === (viewUserId || 'default'));
     setViewingUser(user || { id: 'default', name: 'Default User' });
-    
-    // Load history for the viewed user
-    const historyKey = `sumo_history_${viewUserId || 'default'}`;
-    const savedHistory = JSON.parse(localStorage.getItem(historyKey) || '[]');
-    setHistory(savedHistory);
+
+    const loadHistory = async () => {
+      setLoading(true);
+      try {
+        const response = await getPreviousChecks();
+        setHistory(response.data.history || response.data.checks || []);
+      } catch (err) {
+        console.error('Failed to load history:', err);
+        toast.error('Failed to load history');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadHistory();
     setSelectedItem(null);
   }, [viewUserId, users]);
 
-  const clearHistory = () => {
+  const handleClearHistory = async () => {
     if (window.confirm(`Are you sure you want to clear all history for ${viewingUser?.name}?`)) {
-      const historyKey = `sumo_history_${viewUserId || 'default'}`;
-      localStorage.removeItem(historyKey);
-      setHistory([]);
-      setSelectedItem(null);
+      try {
+        await clearHistory();
+        setHistory([]);
+        setSelectedItem(null);
+        toast.success('History cleared successfully');
+      } catch (err) {
+        toast.error('Failed to clear history');
+      }
     }
   };
 
-  const deleteItem = (id) => {
-    const updated = history.filter(item => item.id !== id);
-    const historyKey = `sumo_history_${viewUserId || 'default'}`;
-    localStorage.setItem(historyKey, JSON.stringify(updated));
-    setHistory(updated);
-    if (selectedItem?.id === id) {
-      setSelectedItem(null);
+  const handleDeleteItem = async (id) => {
+    try {
+      await deleteHistoryItem(id);
+      const updated = history.filter((item) => item.id !== id);
+      setHistory(updated);
+      if (selectedItem?.id === id) {
+        setSelectedItem(null);
+      }
+      toast.success('Record deleted');
+    } catch (err) {
+      toast.error('Failed to delete record');
     }
   };
 
@@ -56,6 +79,7 @@ export default function History() {
       state: {
         result: item.result,
         city: item.city,
+        nearbyClinics: item.nearbyClinics || item.nearby_clinics || [],
       },
     });
   };
@@ -71,54 +95,67 @@ export default function History() {
     });
   };
 
-  const bgClass = theme === 'dark' ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200';
-  const textClass = theme === 'dark' ? 'text-white' : 'text-gray-900';
-  const textSecondaryClass = theme === 'dark' ? 'text-gray-300' : 'text-gray-600';
-  const textMutedClass = theme === 'dark' ? 'text-gray-400' : 'text-gray-500';
+  const bgClass = 'bg-th-card border-th-border';
+  const textClass = 'text-th-text';
+  const textSecondaryClass = 'text-th-text-secondary';
+  const textMutedClass = 'text-th-text-muted';
 
   return (
-    <div className="space-y-6">
+    <AnimatedPage className="space-y-6">
       {/* Header */}
-      <div className={`${bgClass} border rounded-lg p-6`}>
+      <div className="glass-thick rounded-[32px] p-8">
         <div className="flex items-center justify-between mb-4">
           <div>
             <div>
-              <h1 className={`text-3xl font-bold ${textClass}`}>Symptom History</h1>
+              <h1 className="text-3xl font-display font-bold text-th-primary">Symptom History</h1>
               <p className={`text-sm ${textMutedClass} mt-1`}>
-                Viewing history for: <span className="font-semibold text-blue-400">{viewingUser?.name || 'User'}</span>
+                Viewing history for:{' '}
+                <span className="font-semibold text-th-text">{viewingUser?.name || 'User'}</span>
               </p>
               <button
                 onClick={() => navigate('/profile')}
-                className={`text-xs ${textMutedClass} hover:text-blue-400 mt-2`}
+                className={`text-sm font-semibold text-blue-500 hover:text-blue-600 mt-3 transition-colors bg-transparent border-none cursor-pointer flex items-center gap-1`}
               >
-                ← Back to Profile
+                &larr; Back to Profile
               </button>
             </div>
           </div>
           {history.length > 0 && (
             <button
-              onClick={clearHistory}
-              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors"
+              onClick={handleClearHistory}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors border-none cursor-pointer"
             >
               Clear All
             </button>
           )}
         </div>
-        <p className={textSecondaryClass}>
-          View your previous symptom checks and guidance results. All data is stored locally on your device.
+        <p className={`${textSecondaryClass} mt-2`}>
+          View your previous symptom checks and guidance results. All data is securely stored locally in your account.
         </p>
       </div>
 
-      {history.length === 0 ? (
-        <div className={`${bgClass} border rounded-lg p-12 text-center`}>
+      {loading ? (
+        <div className="space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="glass-thick rounded-[24px] p-6 shadow-md flex items-center justify-between">
+              <div className="space-y-3 w-1/2">
+                <Skeleton variant="text" className="h-6 w-3/4" />
+                <Skeleton variant="text" className="h-4 w-1/2" />
+              </div>
+              <Skeleton variant="rectangular" className="h-10 w-24 rounded-lg" />
+            </div>
+          ))}
+        </div>
+      ) : history.length === 0 ? (
+        <div className="glass-thick rounded-[32px] p-12 text-center">
           <div className="text-6xl mb-4">📋</div>
-          <h2 className={`text-xl font-semibold ${textClass} mb-2`}>No History Yet</h2>
+          <h2 className="text-2xl font-display font-bold text-th-text mb-2">No History Yet</h2>
           <p className={textMutedClass}>
             Your symptom checks and guidance results will appear here.
           </p>
           <button
             onClick={() => navigate('/')}
-            className="mt-6 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+            className="mt-6 px-6 py-3 bg-gradient-to-r from-blue-600 to-th-primary hover:from-blue-700 hover:to-blue-800 text-white rounded-full font-medium transition-colors shadow-lg cursor-pointer border-none"
           >
             Start New Check
           </button>
@@ -126,17 +163,15 @@ export default function History() {
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* History List */}
-          <div className="lg:col-span-1 space-y-3">
-            <h2 className={`text-lg font-semibold ${textClass} mb-3`}>Previous Checks</h2>
+          <div className="lg:col-span-1 space-y-4">
+            <h2 className="text-xl font-display font-bold text-th-primary mb-3">Previous Checks</h2>
             {history.map((item) => (
               <div
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
-                className={`${bgClass} border rounded-lg p-4 cursor-pointer transition-all hover:shadow-lg ${
+                className={`glass-thin rounded-[24px] p-5 cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg ${
                   selectedItem?.id === item.id
-                    ? theme === 'dark'
-                      ? 'ring-2 ring-blue-500 bg-gray-700'
-                      : 'ring-2 ring-blue-500 bg-blue-50'
+                    ? 'ring-2 ring-th-primary bg-white/60 dark:bg-black/40'
                     : ''
                 }`}
               >
@@ -145,7 +180,7 @@ export default function History() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteItem(item.id);
+                      handleDeleteItem(item.id);
                     }}
                     className="text-red-500 hover:text-red-700 text-sm"
                     aria-label="Delete"
@@ -153,15 +188,13 @@ export default function History() {
                     ✕
                   </button>
                 </div>
-                <p className={`text-sm ${textSecondaryClass} line-clamp-2 mb-2`}>
-                  {item.symptoms}
-                </p>
+                <p className={`text-sm ${textSecondaryClass} line-clamp-2 mb-2`}>{item.symptoms}</p>
                 <div className="flex items-center justify-between">
-                  <span className={`text-xs ${textMutedClass}`}>
-                    {formatDate(item.timestamp)}
-                  </span>
+                  <span className={`text-xs ${textMutedClass}`}>{formatDate(item.timestamp)}</span>
                   {item.city && (
-                    <span className={`text-xs px-2 py-1 rounded ${theme === 'dark' ? 'bg-gray-700 text-gray-300' : 'bg-gray-100 text-gray-600'}`}>
+                    <span
+                      className={`text-xs px-2 py-1 rounded bg-th-badge-bg text-th-badge-text`}
+                    >
                       {item.city}
                     </span>
                   )}
@@ -173,25 +206,27 @@ export default function History() {
           {/* Selected Item Details */}
           <div className="lg:col-span-2">
             {selectedItem ? (
-              <div className={`${bgClass} border rounded-lg p-6 space-y-6`}>
+              <div className="glass-thick rounded-[32px] p-8 space-y-6 shadow-xl">
                 <div className="flex items-center justify-between">
-                  <h2 className={`text-2xl font-bold ${textClass}`}>Details</h2>
+                  <h2 className="text-3xl font-display font-bold text-th-primary">Details</h2>
                   <button
                     onClick={() => viewResult(selectedItem)}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors"
+                    className="px-6 py-2 bg-gradient-to-r from-blue-600 to-th-primary hover:from-blue-700 hover:to-blue-800 text-white rounded-full text-sm font-medium transition-all shadow-md cursor-pointer border-none"
                   >
                     View Full Result
                   </button>
                 </div>
 
                 <div>
-                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2`}>SYMPTOMS</h3>
-                  <p className={textSecondaryClass}>{selectedItem.symptoms}</p>
+                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2 tracking-wider`}>SYMPTOMS</h3>
+                  <p className={`${textSecondaryClass} text-lg leading-relaxed bg-th-info-bg/30 p-4 rounded-xl border border-th-info-border/20`}>{selectedItem.symptoms}</p>
                 </div>
 
                 {selectedItem.formData && (
                   <div>
-                    <h3 className={`text-sm font-semibold ${textMutedClass} mb-2`}>ADDITIONAL INFO</h3>
+                    <h3 className={`text-sm font-semibold ${textMutedClass} mb-2 tracking-wider`}>
+                      ADDITIONAL INFO
+                    </h3>
                     <div className="space-y-1">
                       {selectedItem.formData.ageRange && (
                         <p className={textSecondaryClass}>
@@ -200,7 +235,8 @@ export default function History() {
                       )}
                       {selectedItem.formData.gender && (
                         <p className={textSecondaryClass}>
-                          <span className="font-medium">Gender:</span> {selectedItem.formData.gender}
+                          <span className="font-medium">Gender:</span>{' '}
+                          {selectedItem.formData.gender}
                         </p>
                       )}
                       {selectedItem.formData.chronicConditions?.length > 0 && (
@@ -216,21 +252,21 @@ export default function History() {
                 )}
 
                 <div>
-                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2`}>SUMMARY</h3>
+                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2 tracking-wider`}>SUMMARY</h3>
                   <p className={textSecondaryClass}>
                     {selectedItem.result?.symptom_summary || 'No summary available'}
                   </p>
                 </div>
 
                 <div>
-                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2`}>RECOMMENDED SPECIALTIES</h3>
+                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2 tracking-wider`}>
+                    RECOMMENDED SPECIALTIES
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {selectedItem.result?.recommended_specialties?.map((spec) => (
                       <span
                         key={spec}
-                        className={`px-3 py-1 rounded-full text-sm ${
-                          theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-100 text-blue-800'
-                        }`}
+                        className="px-4 py-1.5 rounded-full text-sm bg-gradient-to-r from-blue-600 to-th-primary text-white font-medium shadow-sm"
                       >
                         {spec}
                       </span>
@@ -239,28 +275,29 @@ export default function History() {
                 </div>
 
                 <div>
-                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2`}>CARE SETTING</h3>
+                  <h3 className={`text-sm font-semibold ${textMutedClass} mb-2 tracking-wider`}>CARE SETTING</h3>
                   <p className={textSecondaryClass}>
-                    {selectedItem.result?.recommended_care_setting?.replace('-', ' ').toUpperCase() || 'Not specified'}
+                    {selectedItem.result?.recommended_care_setting
+                      ?.replace('-', ' ')
+                      .toUpperCase() || 'Not specified'}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-gray-700">
+                <div className="pt-6 border-t border-th-border/30">
                   <p className={`text-xs ${textMutedClass}`}>
                     Checked on {formatDate(selectedItem.timestamp)}
                   </p>
                 </div>
               </div>
             ) : (
-              <div className={`${bgClass} border rounded-lg p-12 text-center`}>
-                <div className="text-4xl mb-4">👈</div>
-                <p className={textMutedClass}>Select an item from the list to view details</p>
+              <div className="glass-panel border-th-border/20 rounded-3xl p-12 text-center h-full flex flex-col items-center justify-center">
+                <div className="text-5xl mb-4 opacity-50">👈</div>
+                <p className={`${textMutedClass} text-lg`}>Select an item from the list to view details</p>
               </div>
             )}
           </div>
         </div>
       )}
-    </div>
+    </AnimatedPage>
   );
 }
-

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SUMO Clinical - Profile &amp; History</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "inverse-primary": "#006b5f",
+                "inverse-on-surface": "#283044",
+                "surface": "#0b1326",
+                "secondary": "#c0c1ff",
+                "on-secondary": "#1000a9",
+                "on-secondary-container": "#b0b2ff",
+                "surface-dim": "#0b1326",
+                "surface-container-low": "#131b2e",
+                "primary": "#57f1db",
+                "on-secondary-fixed": "#07006c",
+                "on-tertiary-container": "#744000",
+                "surface-variant": "#2d3449",
+                "tertiary-fixed": "#ffdcc0",
+                "secondary-fixed-dim": "#c0c1ff",
+                "on-primary-fixed-variant": "#005047",
+                "on-error-container": "#ffdad6",
+                "error": "#ffb4ab",
+                "primary-container": "#2dd4bf",
+                "tertiary-fixed-dim": "#ffb875",
+                "surface-bright": "#31394d",
+                "tertiary": "#ffd1aa",
+                "surface-container-highest": "#2d3449",
+                "outline": "#859490",
+                "primary-fixed-dim": "#3cddc7",
+                "primary-fixed": "#62fae3",
+                "outline-variant": "#3c4a46",
+                "surface-tint": "#3cddc7",
+                "on-tertiary": "#4b2800",
+                "on-surface-variant": "#bacac5",
+                "secondary-container": "#3131c0",
+                "on-tertiary-fixed-variant": "#6b3b00",
+                "on-surface": "#dae2fd",
+                "on-secondary-fixed-variant": "#2f2ebe",
+                "on-primary-fixed": "#00201c",
+                "inverse-surface": "#dae2fd",
+                "background": "#0b1326",
+                "surface-container-high": "#222a3d",
+                "secondary-fixed": "#e1e0ff",
+                "on-primary-container": "#00574d",
+                "on-error": "#690005",
+                "error-container": "#93000a",
+                "surface-container": "#171f33",
+                "surface-container-lowest": "#060e20",
+                "on-background": "#dae2fd",
+                "tertiary-container": "#ffac5a",
+                "on-tertiary-fixed": "#2d1600",
+                "on-primary": "#003731"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "unit": "4px",
+                "margin-mobile": "16px",
+                "margin-desktop": "48px",
+                "gutter": "24px",
+                "container-max": "1440px"
+        },
+        "fontFamily": {
+                "headline-xl": [
+                        "Plus Jakarta Sans"
+                ],
+                "headline-lg-mobile": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-lg": [
+                        "Inter"
+                ],
+                "label-md": [
+                        "Inter"
+                ],
+                "headline-lg": [
+                        "Plus Jakarta Sans"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ],
+                "headline-md": [
+                        "Plus Jakarta Sans"
+                ]
+        },
+        "fontSize": {
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "56px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "20px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "600"
+                        }
+                ],
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "40px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "label-sm": [
+                        "12px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.05em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "fontWeight": "600"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-32">
+<!-- Top Navigation Anchor (Mobile Only) -->
+<header class="fixed top-0 w-full h-[64px] z-50 bg-surface/80 backdrop-blur-md border-b border-outline-variant flex justify-between items-center px-margin-mobile md:hidden">
+<div class="flex items-center gap-2 font-headline-md text-headline-md font-bold text-primary">
+<div class="w-8 h-8 flex items-center justify-center">
+<img alt="SUMO Logo" class="w-full h-full object-contain" src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas"/>
+</div>
+<span class="">SUMO</span>
+</div>
+<div class="flex gap-4">
+<button aria-label="Dark Mode" class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="dark_mode">dark_mode</span>
+</button>
+<button aria-label="Account" class="text-on-surface-variant hover:text-primary transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-[80px] px-margin-mobile mx-auto max-w-[600px] flex flex-col gap-[32px]">
+<!-- Profile Section -->
+<section class="flex flex-col items-center pt-[16px]">
+<div class="w-[88px] h-[88px] rounded-full overflow-hidden mb-[16px] border-2 border-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a person looking forward with a calm and reassuring expression. The lighting is studio-quality, softly highlighting the face against a dark, minimalist background. The color palette aligns with a modern medical context, utilizing deep blacks, subtle grays, and soft skin tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuARWBy0BglUpNQvsRkzgNP1w3h-wKWPSXiXl18m8qnKXTD4jqmtYP6NcvNzAIhzIEKbb7FIwSviPiLQk8ZwaNAsYNQmtYo4KnAPj2ZoIk9YcOVuuM3Yy3eStjF8WuGohkECUs3NfZNdcGS4US8t0lxedsJL0EKEzED3t7_Of4pe8WUXxLl-yMRLVJ_Uy4sgGCqCBAblAsMhiHXXfQOcBCOytGZ_qHk12nSxIv-MFByyUYrTEuL6H4U01sur-wi7rcQnDbyzl41UT2E"/>
+</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-background mb-[4px]">Sarah Jenkins</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">sarah.jenkins@example.com</p>
+<button class="mt-[16px] px-[24px] py-[8px] rounded-full border border-outline-variant text-primary font-label-md text-label-md hover:bg-surface-variant transition-colors">Edit Profile</button>
+</section>
+<!-- Family Members Bento Grid -->
+<section>
+<div class="flex justify-between items-end mb-[16px]">
+<h2 class="font-headline-md text-headline-md text-on-background">Family Members</h2>
+<button class="text-primary font-label-md text-label-md hover:text-primary-container transition-colors flex items-center gap-[4px]">
+<span class="material-symbols-outlined text-[16px]" data-icon="add">add</span>
+                    Add
+                </button>
+</div>
+<div class="grid grid-cols-2 gap-[12px]">
+<!-- Member Card -->
+<div class="bg-surface-container p-[16px] rounded-2xl hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-[40px] h-[40px] rounded-full bg-surface-container-highest flex items-center justify-center mb-[12px] group-hover:bg-primary-container transition-colors text-on-surface group-hover:text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="face">face</span>
+</div>
+<div class="font-body-md text-body-md text-on-background">Michael</div>
+<div class="font-label-md text-label-md font-normal text-on-surface-variant">Son, 8 yrs</div>
+</div>
+<!-- Member Card -->
+<div class="bg-surface-container p-[16px] rounded-2xl hover:bg-surface-variant transition-colors cursor-pointer group">
+<div class="w-[40px] h-[40px] rounded-full bg-surface-container-highest flex items-center justify-center mb-[12px] group-hover:bg-primary-container transition-colors text-on-surface group-hover:text-on-primary-container">
+<span class="material-symbols-outlined" data-icon="elderly">elderly</span>
+</div>
+<div class="font-body-md text-body-md text-on-background">Robert</div>
+<div class="font-label-md text-label-md font-normal text-on-surface-variant">Father, 72 yrs</div>
+</div>
+</div>
+</section>
+<!-- Recent History Section -->
+<section>
+<h2 class="font-headline-md text-headline-md text-on-background mb-[16px]">Recent History</h2>
+<div class="flex flex-col gap-[12px]">
+<!-- History Item 1 (High Severity) -->
+<div class="bg-surface-container p-[16px] rounded-2xl flex flex-col gap-[12px] hover:bg-surface-variant transition-colors border-l-[4px] border-error shadow-[0_0_15px_rgba(255,180,171,0.05)]">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-[12px]">
+<div class="w-[32px] h-[32px] rounded-full bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined" data-icon="warning" data-weight="fill" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-on-background font-medium">Chest Pain Assessment</div>
+<div class="font-label-md text-label-md font-normal text-on-surface-variant">Self • Today, 09:42 AM</div>
+</div>
+</div>
+<div class="bg-error/15 border border-error/30 px-[8px] py-[4px] rounded font-label-sm text-label-sm uppercase text-error">URGENT</div>
+</div>
+<div class="font-label-md text-label-md font-normal text-on-surface-variant bg-surface-container-low p-[12px] rounded-lg">
+                        Recommended immediate visit to Emergency Department. Directions provided to nearest facility.
+                    </div>
+</div>
+<!-- History Item 2 (Low Severity) -->
+<div class="bg-surface-container p-[16px] rounded-2xl flex flex-col gap-[12px] hover:bg-surface-variant transition-colors border-l-[4px] border-tertiary">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-[12px]">
+<div class="w-[32px] h-[32px] rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined" data-icon="child_care">child_care</span>
+</div>
+<div>
+<div class="font-body-md text-body-md text-on-background font-medium">Fever Assessment</div>
+<div class="font-label-md text-label-md font-normal text-on-surface-variant">Michael • Yesterday, 08:15 PM</div>
+</div>
+</div>
+<div class="bg-tertiary/15 border border-tertiary/30 px-[8px] py-[4px] rounded font-label-sm text-label-sm uppercase text-tertiary">MONITOR</div>
+</div>
+</div>
+</div>
+<button class="w-full mt-[16px] py-[12px] rounded-full border border-outline-variant text-on-surface font-body-md text-body-md hover:bg-surface-variant transition-colors text-center">
+                View Full History
+            </button>
+</section>
+</main>
+<!-- Bottom Nav Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container shadow-sm md:hidden border-t border-outline-variant">
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="medical_services">medical_services</span>
+<span class="font-label-sm text-label-sm">Assess</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="history">history</span>
+<span class="font-label-sm text-label-sm">History</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant rounded-full transition-all p-2 group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="local_hospital">local_hospital</span>
+<span class="font-label-sm text-label-sm">Facilities</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-full px-4 py-1 hover:bg-surface-variant transition-all group" href="#">
+<span class="material-symbols-outlined mb-1 group-active:scale-95 transition-transform duration-100" data-icon="person">person</span>
+<span class="font-label-sm text-label-sm">Profile</span>
+</a>
+</nav>
+</body></html>

@@ -16,7 +16,7 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const savedUsers = JSON.parse(localStorage.getItem('sumo_users') || '[]');
     const savedCurrentUserId = localStorage.getItem('sumo_current_user_id') || 'default';
-    
+
     // Migrate old history format to user-specific format
     const oldHistory = localStorage.getItem('symptom_history');
     if (oldHistory) {
@@ -25,7 +25,7 @@ export function UserProvider({ children }) {
         if (Array.isArray(historyData) && historyData.length > 0) {
           // Migrate to default user
           localStorage.setItem('sumo_history_default', oldHistory);
-          console.log(`Migrated ${historyData.length} history entries to default user`);
+          console.warn(`Migrated ${historyData.length} history entries to default user`);
         }
         // Remove old history key
         localStorage.removeItem('symptom_history');
@@ -33,7 +33,7 @@ export function UserProvider({ children }) {
         console.error('Error migrating history:', e);
       }
     }
-    
+
     // If no users exist, create default user
     if (savedUsers.length === 0) {
       const defaultUsers = [DEFAULT_USER];
@@ -42,9 +42,9 @@ export function UserProvider({ children }) {
     } else {
       setUsers(savedUsers);
     }
-    
+
     // Check if current user exists, if not use default
-    const userExists = savedUsers.find(u => u.id === savedCurrentUserId);
+    const userExists = savedUsers.find((u) => u.id === savedCurrentUserId);
     if (userExists || savedCurrentUserId === 'default') {
       setCurrentUserId(savedCurrentUserId);
     } else {
@@ -73,13 +73,13 @@ export function UserProvider({ children }) {
       gender: userData.gender || '',
       createdAt: new Date().toISOString(),
     };
-    setUsers(prev => [...prev, newUser]);
+    setUsers((prev) => [...prev, newUser]);
     return newUser;
   };
 
   const updateUser = (userId, userData) => {
-    setUsers(prev =>
-      prev.map(user =>
+    setUsers((prev) =>
+      prev.map((user) =>
         user.id === userId ? { ...user, ...userData, updatedAt: new Date().toISOString() } : user
       )
     );
@@ -90,17 +90,17 @@ export function UserProvider({ children }) {
       alert('Cannot delete the default user.');
       return false;
     }
-    
+
     // Delete user's history
     localStorage.removeItem(`sumo_history_${userId}`);
-    
-    setUsers(prev => prev.filter(user => user.id !== userId));
-    
+
+    setUsers((prev) => prev.filter((user) => user.id !== userId));
+
     // If deleted user was current, switch to default
     if (currentUserId === userId) {
       setCurrentUserId('default');
     }
-    
+
     return true;
   };
 
@@ -112,7 +112,7 @@ export function UserProvider({ children }) {
     if (currentUserId === 'default') {
       return DEFAULT_USER;
     }
-    return users.find(u => u.id === currentUserId) || DEFAULT_USER;
+    return users.find((u) => u.id === currentUserId) || DEFAULT_USER;
   };
 
   return (
@@ -139,4 +139,3 @@ export function useUser() {
   }
   return context;
 }
-
