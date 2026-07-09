@@ -53,14 +53,13 @@ export default function Login() {
     setLoading(true);
     try {
       const result = await signInWithGoogle();
-      if (result.success) {
-        toast.success('Successfully signed in with Google!');
-      } else {
+      if (!result.success) {
         toast.error(result.error);
+        setLoading(false);
       }
+      // On success, the browser will redirect to Google, so we intentionally leave loading=true
     } catch (_err) {
       toast.error('Google sign-in failed. Please try again.');
-    } finally {
       setLoading(false);
     }
   };

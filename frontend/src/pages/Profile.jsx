@@ -74,9 +74,9 @@ export default function Profile() {
                   <span className="material-symbols-outlined text-4xl text-blue-600">person</span>
                 </div>
               )}
-              <div>
-                <p className="text-2xl font-display font-semibold text-th-text">{currentProfile?.name || 'Set your name'}</p>
-                <p className="text-th-text-secondary">{currentProfile?.email}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-2xl font-display font-semibold text-th-text truncate">{currentProfile?.name || 'Set your name'}</p>
+                <p className="text-th-text-secondary break-all">{currentProfile?.email}</p>
               </div>
             </div>
             <button
