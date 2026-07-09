@@ -111,23 +111,7 @@ router.post('/analyze', requireSupabaseAuth, async (req, res) => {
     // Build safe result with defaults
     const safeResult = buildSafeResult(geminiResult);
 
-    const coordinates = parseCoordinates(req.body);
-
-    // If browser geolocation was denied, try to geocode the user's city input
-    let searchCoordinates = coordinates;
-    if (!searchCoordinates && payload.city) {
-      searchCoordinates = await geocodeCity(payload.city);
-    }
-
-    const nearbyClinics = searchCoordinates
-      ? await fetchNearbyClinics(
-          searchCoordinates.lat,
-          searchCoordinates.lng,
-          safeResult.recommended_specialist,
-        )
-      : [];
-
-    const responsePayload = { result: safeResult, nearby_clinics: nearbyClinics };
+    const responsePayload = { result: safeResult, nearby_clinics: [] };
 
     res.json(responsePayload);
 

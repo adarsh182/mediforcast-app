@@ -226,34 +226,7 @@ export default function Result() {
       </div>
 
       {/* Hospital Recommendations */}
-      {(nearbyClinics.length > 0 || city) && (
-        <div className="glass-thick rounded-[32px] p-8 mt-8">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-display font-bold text-th-primary flex items-center gap-2">
-              <span className="text-3xl">🏥</span> 
-              Nearby Clinics & Hospitals {city ? `in ${city}` : ''}
-            </h2>
-            {result.recommended_specialist && (
-              <span className="bg-th-info-bg/50 border border-th-info-border/30 text-th-info-text px-4 py-1.5 rounded-full text-sm font-semibold capitalize shadow-sm">
-                Filtered by: {result.recommended_specialist}
-              </span>
-            )}
-          </div>
-          {nearbyClinics.length === 0 && (
-            <div className="bg-th-card/30 border border-th-border/10 rounded-2xl p-6 mb-4 text-center">
-              <p className="mb-2 text-lg font-medium text-th-text">No specialized clinics were found within a 5km radius.</p>
-              <p className={`text-sm ${textMutedClass}`}>
-                Try selecting a different city or check back later. In an emergency, call emergency services immediately.
-              </p>
-            </div>
-          )}
-          <HospitalList
-            hospitals={nearbyClinics}
-            loading={false}
-            recommendedDept={result.recommended_specialist}
-          />
-        </div>
-      )}
+      <NearbyHospitals city={city} recommendedDept={result.recommended_specialist || result.recommended_specialties?.[0]} />
 
       {/* Disclaimer Footer */}
       <div className="glass-thin rounded-[32px] p-8 text-sm text-th-text-secondary leading-relaxed mt-10">
