@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import { Card, CardContent } from '../components/ui/Card';
+import Logo from '../components/Logo';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -85,15 +86,11 @@ export default function Login() {
           <CardContent className="space-y-0">
             {/* Branding */}
             <div className="text-center mb-8 flex flex-col items-center justify-center">
-              <img
-                alt="SUMO Logo"
-                className="h-16 w-auto mx-auto mb-2 text-primary"
-                src="https://lh3.googleusercontent.com/aida/AP1WRLv06YBhyEE8ethG4TEs_N77vFMWf20L0RBpuCxq4ffEVmStqbKWxvaK-Fp-mhHGNoJew2L-HNNJMKMTJrdFw4AwWAiFFucOUgTtAyX9DWAUPAtvllyH3bjt8ZJ669WS10QAEx_k5KuyDzaIYEhGSoUxwpKe0dcym0ADHVfcLzmMga2NLRaupEKs_nPxLl_MGjfTxb2lbQt4TwYi9RnVBKC1o8bOpA59s_-yiSqIr9mRAEArb_pEMWzamas"
-              />
-              <h1 className="font-headline-md text-headline-md text-on-surface tracking-tight">
+              <Logo className="w-16 h-16 mx-auto mb-4 drop-shadow-sm" />
+              <h1 className="text-4xl font-display font-bold text-th-primary tracking-tight">
                 SUMO
               </h1>
-              <p className="font-body-md text-body-md text-on-surface-variant mt-1">
+              <p className="text-sm text-th-text-secondary mt-1.5">
                 Clinical Assessment Platform
               </p>
             </div>
