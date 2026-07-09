@@ -226,7 +226,7 @@ Please analyze these symptoms and provide guidance in the exact JSON format spec
       params: {
         key: apiKey,
       },
-      timeout: 15000,
+      timeout: 45000,
     });
 
     const textContent = response.data?.candidates?.[0]?.content?.parts?.[0]?.text;
