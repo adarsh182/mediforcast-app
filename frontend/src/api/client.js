@@ -45,4 +45,15 @@ export const deleteHistoryItem = (id) => client.delete(`/symptoms/previous/${id}
 
 export const clearHistory = () => client.delete('/symptoms/previous');
 
+export const getNearbyHospitals = ({ lat, lon, pincode }) => {
+  const params = {};
+  if (lat != null && lon != null) {
+    params.lat = lat;
+    params.lon = lon;
+  } else if (pincode) {
+    params.pincode = pincode;
+  }
+  return client.get('/hospitals/nearby', { params });
+};
+
 export default client;

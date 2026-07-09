@@ -89,7 +89,7 @@ export default function Home() {
         <div className={`space-y-3 text-sm ${textSecondaryClass}`}>
           <div>
             <p className={`font-semibold mb-1 ${textClass}`}>🔒 Privacy</p>
-            <p>Your data is processed locally and not stored on our servers.</p>
+            <p>Your symptom description is sent securely to our AI service (Google Gemini) for analysis and is not permanently stored by us. Your check history is saved only on this device.</p>
           </div>
           <div>
             <p className={`font-semibold mb-1 ${textClass}`}>⚕️ Not a Diagnosis</p>
